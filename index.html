@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Колесо Фортуны | SO2</title>
+    <title>SO2 Рулетка</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -229,18 +229,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
             max-width: 400px;
             width: 100%;
             margin-top: 55px;
-        }
-
-        h1 {
-            color: #ffd700;
-            font-size: 1.8rem;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-            text-align: center;
-            letter-spacing: 1px;
         }
 
         .wheel-wrapper {
@@ -336,9 +328,6 @@
                 width: 260px;
                 height: 260px;
             }
-            h1 {
-                font-size: 1.5rem;
-            }
         }
     </style>
 </head>
@@ -370,8 +359,6 @@
 
     <!-- Основная игра -->
     <div class="game-container" id="gameContainer">
-        <h1>🎰 Колесо Фортуны</h1>
-        
         <div class="wheel-wrapper">
             <div class="pointer"></div>
             <div class="center-circle"></div>
@@ -386,20 +373,21 @@
     </div>
 
     <!-- Звук -->
-    <audio id="tickSound" preload="auto">
-        <source src="https://xrackovich.github.io/test_telegram/гортание.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="tickSound" preload="auto" src="https://xrackovich.github.io/test_telegram/гортание.mp3"></audio>
 
     <script>
+        // Версия для сброса кеша: 2.0.1
+        const APP_VERSION = '2.0.1';
+        console.log('SO2 Ruletka v' + APP_VERSION);
+
         // ============ Telegram Mini App ============
         const tg = window.Telegram?.WebApp;
         let currentUser = null;
 
         // ============ Баланс и промокоды ============
-        let balance = 25; // стартовый баланс
-        const promoUsedKey = 'so2_promos_used';
+        let balance = 25;
+        const promoUsedKey = 'so2_promos_used_v2';
 
-        // Загрузка использованных промокодов из localStorage
         function getUsedPromos() {
             try {
                 return JSON.parse(localStorage.getItem(promoUsedKey) || '{}');
@@ -412,12 +400,10 @@
             localStorage.setItem(promoUsedKey, JSON.stringify(promos));
         }
 
-        // Проверка и активация промокода
         function activatePromo(code) {
             const usedPromos = getUsedPromos();
             const upperCode = code.toUpperCase().trim();
 
-            // Загружаем список промокодов
             fetch('https://xrackovich.github.io/test_telegram/промокод.txt')
                 .then(res => res.text())
                 .then(data => {
@@ -436,14 +422,13 @@
                                 const usedCount = usedPromos[upperCode] || 0;
 
                                 if (usedCount >= maxUses) {
-                                    showPromoMsg('Промокод уже использован максимальное количество раз', 'error');
+                                    showPromoMsg('Промокод уже использован', 'error');
                                 } else {
-                                    // Активируем
                                     balance += gold;
                                     updateBalanceDisplay();
                                     usedPromos[upperCode] = usedCount + 1;
                                     saveUsedPromos(usedPromos);
-                                    showPromoMsg(`Промокод активирован! +${gold} G`, 'success');
+                                    showPromoMsg(`+${gold} G`, 'success');
                                 }
                                 break;
                             }
@@ -455,7 +440,7 @@
                     }
                 })
                 .catch(() => {
-                    showPromoMsg('Ошибка загрузки промокодов', 'error');
+                    showPromoMsg('Ошибка загрузки', 'error');
                 });
         }
 
@@ -475,7 +460,7 @@
                 document.body.innerHTML = `
                     <div style="color: white; text-align: center; padding: 40px;">
                         <h2 style="color: #ffd700;">Откройте приложение через Telegram</h2>
-                        <p style="margin-top: 20px;">Перейдите в бота @SO2ruletka_bot и нажмите "Запустить"</p>
+                        <p style="margin-top: 20px;">Перейдите в бота @SO2ruletka_bot</p>
                     </div>
                 `;
                 return;
@@ -497,8 +482,22 @@
             }
 
             updateBalanceDisplay();
+            
+            // Разблокируем звук по первому касанию
+            document.addEventListener('click', unlockAudio, { once: true });
+            document.addEventListener('touchstart', unlockAudio, { once: true });
+            
             initGame();
             initMenu();
+        }
+
+        function unlockAudio() {
+            const tickSound = document.getElementById('tickSound');
+            tickSound.play().then(() => {
+                tickSound.pause();
+                tickSound.currentTime = 0;
+                console.log('Audio unlocked');
+            }).catch(() => {});
         }
 
         // ============ Меню ============
@@ -542,7 +541,7 @@
             });
         }
 
-        // ============ Игра Колесо Фортуны ============
+        // ============ Игра ============
         const canvas = document.getElementById('wheelCanvas');
         const ctx = canvas.getContext('2d');
         let spinButton;
@@ -564,10 +563,8 @@
         let autoRetryTimeout = null;
         let lastSectorIndex = -1;
 
-        // Звук
         const tickSound = document.getElementById('tickSound');
-        tickSound.volume = 0.4;
-        tickSound.preload = 'auto';
+        tickSound.volume = 0.5;
 
         function drawWheel(angle) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -634,9 +631,8 @@
         }
 
         function playTickSound() {
-            const sound = tickSound.cloneNode();
-            sound.volume = 0.4;
-            sound.play().catch(() => {});
+            tickSound.currentTime = 0;
+            tickSound.play().catch(() => {});
         }
 
         function startSpin() {
@@ -656,19 +652,18 @@
             const totalRotation = rotations * 2 * Math.PI + (Math.random() * 2 * Math.PI);
             
             const startAngle = currentAngle;
-            const duration = 3000;
+            const duration = 3500;
             const startTime = performance.now();
             
             function animate(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 
-                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const easeOut = 1 - Math.pow(1 - progress, 4);
                 
                 currentAngle = startAngle + totalRotation * easeOut;
                 drawWheel(currentAngle);
 
-                // Проверка пересечения границы сектора для звука
                 const currentSector = getCurrentSector(currentAngle);
                 if (currentSector !== lastSectorIndex && lastSectorIndex !== -1) {
                     playTickSound();
@@ -687,7 +682,6 @@
                     
                     resultDisplay.innerHTML = `Результат: <span>${result}</span>`;
                     
-                    // Начисление голды
                     if (goldEarned > 0) {
                         balance += goldEarned;
                         updateBalanceDisplay();
