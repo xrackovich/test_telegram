@@ -9,7 +9,6 @@
         :root {
             --bg-dark: #061406;
             --green-neon: #1aff1a;
-            --green-mid: #0d2b0d;
             --gold: #ffd700;
         }
 
@@ -33,7 +32,6 @@
             position: relative;
         }
 
-        /* Анимированный фон */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -54,24 +52,13 @@
         }
 
         @keyframes floatOrb {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(120px, -100px) scale(1.4);
-            }
-            50% {
-                transform: translate(-60px, 120px) scale(0.7);
-            }
-            75% {
-                transform: translate(-140px, -50px) scale(1.3);
-            }
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(120px, -100px) scale(1.4); }
+            50% { transform: translate(-60px, 120px) scale(0.7); }
+            75% { transform: translate(-140px, -50px) scale(1.3); }
+            100% { transform: translate(0, 0) scale(1); }
         }
 
-        /* Верхняя панель */
         .top-bar {
             position: fixed;
             top: 0;
@@ -97,21 +84,9 @@
             gap: 2px;
         }
 
-        .balance-icon {
-            font-size: 1rem;
-        }
-
-        .balance-amount {
-            color: var(--gold);
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        .balance-letter {
-            color: var(--gold);
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
+        .balance-icon { font-size: 1rem; }
+        .balance-amount { color: var(--gold); font-weight: bold; font-size: 1rem; }
+        .balance-letter { color: var(--gold); font-weight: bold; font-size: 0.8rem; }
 
         .user-profile {
             display: flex;
@@ -122,11 +97,6 @@
             border-radius: 8px;
             border: 1px solid rgba(26, 255, 26, 0.3);
             cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .user-profile:active {
-            background: rgba(26, 255, 26, 0.15);
         }
 
         .user-avatar {
@@ -134,7 +104,6 @@
             height: 30px;
             border-radius: 6px;
             border: 1px solid var(--green-neon);
-            object-fit: cover;
             background: linear-gradient(135deg, #1a4d1a, #0a2a0a);
             display: flex;
             align-items: center;
@@ -166,7 +135,6 @@
             margin-left: 1px;
         }
 
-        /* Меню */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -180,9 +148,7 @@
             align-items: center;
         }
 
-        .menu-overlay.active {
-            display: flex;
-        }
+        .menu-overlay.active { display: flex; }
 
         .menu-panel {
             background: linear-gradient(180deg, #0d2b0d 0%, #0a1f0a 100%);
@@ -212,10 +178,6 @@
             outline: none;
             margin-bottom: 10px;
             text-align: center;
-        }
-
-        .promo-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
         }
 
         .promo-btn {
@@ -253,7 +215,6 @@
             margin-top: 6px;
         }
 
-        /* Основной контейнер */
         .game-container {
             display: flex;
             flex-direction: column;
@@ -335,18 +296,11 @@
             text-transform: uppercase;
             border: 1px solid rgba(26, 255, 26, 0.4);
             white-space: nowrap;
-            position: relative;
             z-index: 1;
         }
 
-        .spin-btn:active {
-            transform: scale(0.95);
-        }
-
-        .spin-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .spin-btn:active { transform: scale(0.95); }
+        .spin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -354,11 +308,8 @@
             75% { transform: translateX(5px); }
         }
 
-        .shake {
-            animation: shake 0.3s ease-in-out;
-        }
+        .shake { animation: shake 0.3s ease-in-out; }
 
-        /* Громкость слева снизу */
         .volume-control {
             position: fixed;
             bottom: 20px;
@@ -373,9 +324,7 @@
             z-index: 10;
         }
 
-        .volume-icon {
-            font-size: 1.1rem;
-        }
+        .volume-icon { font-size: 1.1rem; }
 
         .volume-slider {
             -webkit-appearance: none;
@@ -410,10 +359,8 @@
     </style>
 </head>
 <body>
-    <!-- Анимированный фон -->
     <div class="bg-animation" id="bgAnimation"></div>
 
-    <!-- Верхняя панель -->
     <div class="top-bar" id="topBar">
         <div class="balance-box">
             <span class="balance-icon">🪙</span>
@@ -427,7 +374,6 @@
         </div>
     </div>
 
-    <!-- Меню -->
     <div class="menu-overlay" id="menuOverlay">
         <div class="menu-panel">
             <div class="menu-title">🎁 Промокод</div>
@@ -438,18 +384,15 @@
         </div>
     </div>
 
-    <!-- Основная игра -->
     <div class="game-container" id="gameContainer">
         <div class="wheel-wrapper">
             <div class="pointer"></div>
             <div class="center-circle" id="centerCircle">Крутить</div>
             <canvas id="wheelCanvas" width="400" height="400"></canvas>
         </div>
-
         <button class="spin-btn" id="spinButton">Крутить (15 G)</button>
     </div>
 
-    <!-- Громкость -->
     <div class="volume-control">
         <span class="volume-icon">🔊</span>
         <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
@@ -458,56 +401,54 @@
     <audio id="tickSound" preload="auto" src="https://xrackovich.github.io/test_telegram/гортание.mp3"></audio>
 
     <script>
-        const APP_VERSION = '2.4.0';
         const SPIN_COST = 15;
-        // Ссылка на Google Apps Script (замени на свою после деплоя)
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwXqPLxSqzq8BqL8JqL8JqL8JqL8JqL8JqL8JqL8JqL8JqL8JqL/exec';
-        console.log('SO2 Ruletka v' + APP_VERSION);
-
-        // ============ Telegram Mini App ============
         const tg = window.Telegram?.WebApp;
-        let currentUser = null;
         let userId = 'guest';
+        let balance = 25;
 
-        // ============ Серверные данные ============
-        async function fetchUserData() {
+        // ТВОИ ДАННЫЕ JSONBIN
+        const BIN_ID = '6a174ee621f9ee59d292b0d9';
+        const API_KEY = '$2a$10$bmM.cyaAtqqgJgSlkN9rt.DqlTyv8aUa.ns/1iqyicwBmmf83xRS6';
+        const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+        async function loadFromServer() {
             try {
-                const response = await fetch(API_URL + '?action=get&userId=' + userId);
-                const data = await response.json();
-                if (data && data.balance !== undefined) {
-                    balance = data.balance;
-                } else {
-                    balance = 25;
-                }
+                const res = await fetch(API_URL + '/latest', {
+                    headers: { 'X-Master-Key': API_KEY }
+                });
+                const data = await res.json();
+                const users = data.record.users || {};
+                balance = users[userId] || 25;
+                if (balance < 0) balance = 0;
             } catch(e) {
-                console.log('Оффлайн-режим, беру из localStorage');
-                const saved = localStorage.getItem(userId + '_balance');
-                balance = saved ? parseInt(saved) : 25;
-                if (isNaN(balance) || balance < 0) balance = 0;
+                balance = parseInt(localStorage.getItem(userId + '_bal')) || 25;
             }
             updateBalanceDisplay();
         }
 
-        async function saveUserData() {
-            // Сохраняем локально всегда
-            localStorage.setItem(userId + '_balance', balance.toString());
-            
-            // Пытаемся сохранить на сервер
+        async function saveToServer() {
+            localStorage.setItem(userId + '_bal', balance.toString());
             try {
+                const res = await fetch(API_URL + '/latest', {
+                    headers: { 'X-Master-Key': API_KEY }
+                });
+                const data = await res.json();
+                const users = data.record.users || {};
+                users[userId] = balance;
+                
                 await fetch(API_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        action: 'save',
-                        userId: userId,
-                        balance: balance
-                    })
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': API_KEY
+                    },
+                    body: JSON.stringify({ users: users })
                 });
             } catch(e) {
-                console.log('Сервер недоступен, сохранено локально');
+                console.log('Сохранено локально');
             }
         }
 
-        // ============ Анимированный фон ============
         function createOrbs() {
             const container = document.getElementById('bgAnimation');
             const colors = [
@@ -517,12 +458,12 @@
                 'rgba(10, 150, 10, 0.25)',
                 'rgba(30, 220, 30, 0.18)'
             ];
-            
             for (let i = 0; i < 5; i++) {
                 const orb = document.createElement('div');
                 orb.classList.add('orb');
-                orb.style.width = (140 + Math.random() * 180) + 'px';
-                orb.style.height = orb.style.width;
+                const size = 140 + Math.random() * 180;
+                orb.style.width = size + 'px';
+                orb.style.height = size + 'px';
                 orb.style.background = colors[i];
                 orb.style.left = (Math.random() * 80) + '%';
                 orb.style.top = (Math.random() * 80) + '%';
@@ -532,98 +473,75 @@
             }
         }
 
-        // ============ Баланс ============
-        let balance = 25;
-
         function updateBalanceDisplay() {
             document.getElementById('balanceAmount').textContent = balance;
         }
 
-        // ============ Промокоды (всегда с сервера) ============
         function activatePromo(code) {
             const upperCode = code.toUpperCase().trim();
-            
             fetch('https://xrackovich.github.io/test_telegram/промокод.txt')
                 .then(res => res.text())
                 .then(data => {
                     const lines = data.trim().split('\n');
-                    let found = false;
-
                     for (let line of lines) {
                         const parts = line.trim().split(';');
-                        if (parts.length >= 3) {
-                            const promoCode = parts[0].trim().toUpperCase();
+                        if (parts.length >= 2 && parts[0].trim().toUpperCase() === upperCode) {
                             const gold = parseInt(parts[1]);
-
-                            if (promoCode === upperCode) {
-                                found = true;
-                                const usedKey = userId + '_promo_' + upperCode;
-                                if (localStorage.getItem(usedKey)) {
-                                    showPromoMsg('Промокод уже использован', 'error');
-                                } else {
-                                    balance += gold;
-                                    updateBalanceDisplay();
-                                    saveUserData();
-                                    localStorage.setItem(usedKey, '1');
-                                    showPromoMsg(`+${gold} G`, 'success');
-                                }
-                                break;
+                            const usedKey = userId + '_promo_' + upperCode;
+                            if (localStorage.getItem(usedKey)) {
+                                showPromoMsg('Уже использован', 'error');
+                            } else {
+                                balance += gold;
+                                updateBalanceDisplay();
+                                saveToServer();
+                                localStorage.setItem(usedKey, '1');
+                                showPromoMsg(`+${gold} G`, 'success');
                             }
+                            return;
                         }
                     }
-
-                    if (!found) showPromoMsg('Промокод не найден', 'error');
+                    showPromoMsg('Не найден', 'error');
                 })
-                .catch(() => showPromoMsg('Ошибка загрузки', 'error'));
+                .catch(() => showPromoMsg('Ошибка', 'error'));
         }
 
         function showPromoMsg(msg, type) {
             const el = document.getElementById('promoMsg');
             el.textContent = msg;
-            el.className = 'promo-msg ' + type;
+            el.className = 'promo-msg ' + (type || '');
         }
 
-        // ============ Инициализация ============
         async function init() {
             if (!tg) {
-                document.body.innerHTML = `
-                    <div style="color:white;text-align:center;padding:40px;position:relative;z-index:1;">
-                        <h2 style="color:#ffd700;">Откройте через Telegram</h2>
-                        <p style="margin-top:20px;">@SO2ruletka_bot</p>
-                    </div>`;
+                document.body.innerHTML = '<div style="color:white;text-align:center;padding:40px;z-index:1;position:relative;"><h2 style="color:#ffd700;">Откройте через Telegram</h2><p>@SO2ruletka_bot</p></div>';
                 return;
             }
-
             tg.ready();
             tg.expand();
 
             const user = tg.initDataUnsafe?.user;
             if (user) {
-                currentUser = user;
                 userId = 'tg_' + user.id;
                 document.getElementById('userName').textContent = user.first_name;
-                const avatarEl = document.getElementById('userAvatar');
+                const av = document.getElementById('userAvatar');
                 if (user.photo_url) {
-                    avatarEl.innerHTML = `<img src="${user.photo_url}" alt="A">`;
+                    av.innerHTML = `<img src="${user.photo_url}" alt="A">`;
                 } else {
-                    avatarEl.textContent = user.first_name.charAt(0).toUpperCase();
+                    av.textContent = user.first_name.charAt(0).toUpperCase();
                 }
             }
 
-            await fetchUserData();
+            await loadFromServer();
+            updateBalanceDisplay();
             createOrbs();
-            
-            document.addEventListener('click', unlockAudio, { once: true });
-            document.addEventListener('touchstart', unlockAudio, { once: true });
-            
+            document.addEventListener('click', () => {
+                const s = document.getElementById('tickSound');
+                s.play().then(() => { s.pause(); s.currentTime = 0; }).catch(() => {});
+            }, { once: true });
+
             initGame();
             initMenu();
             initVolume();
-        }
-
-        function unlockAudio() {
-            const s = document.getElementById('tickSound');
-            s.play().then(() => { s.pause(); s.currentTime = 0; }).catch(() => {});
         }
 
         function initVolume() {
@@ -633,32 +551,27 @@
             slider.addEventListener('input', () => s.volume = slider.value / 100);
         }
 
-        // ============ Меню ============
         function initMenu() {
             const overlay = document.getElementById('menuOverlay');
-            document.getElementById('userProfile').addEventListener('click', () => {
+            document.getElementById('userProfile').onclick = () => {
                 overlay.classList.add('active');
                 document.getElementById('promoMsg').textContent = '';
-                document.getElementById('promoMsg').className = 'promo-msg';
                 document.getElementById('promoInput').value = '';
-            });
-            document.getElementById('closeMenuBtn').addEventListener('click', () => overlay.classList.remove('active'));
-            overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
-            document.getElementById('promoBtn').addEventListener('click', () => {
+            };
+            document.getElementById('closeMenuBtn').onclick = () => overlay.classList.remove('active');
+            overlay.onclick = (e) => { if (e.target === overlay) overlay.classList.remove('active'); };
+            document.getElementById('promoBtn').onclick = () => {
                 const code = document.getElementById('promoInput').value.trim();
-                if (!code) { showPromoMsg('Введите промокод', 'error'); return; }
-                activatePromo(code);
-            });
+                code ? activatePromo(code) : showPromoMsg('Введите код', 'error');
+            };
         }
 
         // ============ Игра ============
         const canvas = document.getElementById('wheelCanvas');
         const ctx = canvas.getContext('2d');
-        let spinButton;
         const centerCircle = document.getElementById('centerCircle');
-        let gameInitialized = false;
+        let spinning = false, currentAngle = 0, lastSectorIndex = -1, gameReady = false;
 
-        // Сектора с нормальными шансами
         const sectors = [
             { label: '5 G', color: '#27ae60', reward: '+5 G', gold: 5, weight: 38 },
             { label: '7 G', color: '#2ecc71', reward: '+7 G', gold: 7, weight: 28 },
@@ -669,42 +582,36 @@
         ];
 
         const beginnerWeights = [30, 28, 22, 14, 5, 1];
-        const sectorAngle = (2 * Math.PI) / sectors.length;
-        let currentAngle = 0;
-        let spinning = false;
-        let lastSectorIndex = -1;
-
+        const sectorAngle = (2 * Math.PI) / 6;
         const tickSound = document.getElementById('tickSound');
-        tickSound.volume = 0.5;
 
         function getSpinCount() {
             return parseInt(localStorage.getItem(userId + '_spins') || '0');
         }
 
-        function getWeightedRandomSector() {
+        function getSector() {
             const spins = getSpinCount();
-            const weights = spins < 3 ? beginnerWeights : sectors.map(s => s.weight);
-            const total = weights.reduce((a, b) => a + b, 0);
+            const w = spins < 3 ? beginnerWeights : sectors.map(s => s.weight);
+            const total = w.reduce((a, b) => a + b, 0);
             let r = Math.random() * total;
-            for (let i = 0; i < sectors.length; i++) {
-                r -= weights[i];
+            for (let i = 0; i < w.length; i++) {
+                r -= w[i];
                 if (r <= 0) return i;
             }
             return 0;
         }
 
-        function drawWheel(angle) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const cx = canvas.width / 2, cy = canvas.height / 2, r = 180;
-
+        function drawWheel(a) {
+            ctx.clearRect(0, 0, 400, 400);
+            const cx = 200, cy = 200, R = 180;
             sectors.forEach((s, i) => {
-                const sa = angle + i * sectorAngle, ea = sa + sectorAngle;
-                const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+                const sa = a + i * sectorAngle, ea = sa + sectorAngle;
+                const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
                 g.addColorStop(0, s.color);
                 g.addColorStop(1, darken(s.color, 30));
                 ctx.beginPath();
                 ctx.moveTo(cx, cy);
-                ctx.arc(cx, cy, r, sa, ea);
+                ctx.arc(cx, cy, R, sa, ea);
                 ctx.closePath();
                 ctx.fillStyle = g;
                 ctx.fill();
@@ -717,94 +624,74 @@
                 ctx.textAlign = "right";
                 ctx.fillStyle = 'white';
                 ctx.font = 'bold 15px "Segoe UI", Tahoma, sans-serif';
-                ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                ctx.shadowBlur = 4;
-                ctx.fillText(s.label, r - 22, 5);
-                ctx.shadowBlur = 0;
+                ctx.fillText(s.label, R - 22, 5);
                 ctx.restore();
             });
-
             ctx.beginPath();
-            ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+            ctx.arc(cx, cy, R, 0, 2 * Math.PI);
             ctx.strokeStyle = '#1aff1a';
             ctx.lineWidth = 2.5;
-            ctx.shadowColor = 'rgba(26,255,26,0.35)';
-            ctx.shadowBlur = 12;
             ctx.stroke();
-            ctx.shadowBlur = 0;
         }
 
         function darken(hex, p) {
             const n = parseInt(hex.replace('#', ''), 16);
             const a = Math.round(2.55 * p);
-            const R = Math.max((n >> 16) - a, 0);
-            const G = Math.max((n >> 8 & 0xFF) - a, 0);
-            const B = Math.max((n & 0xFF) - a, 0);
-            return `rgb(${R},${G},${B})`;
+            return `rgb(${Math.max((n>>16)-a,0)},${Math.max((n>>8&0xFF)-a,0)},${Math.max((n&0xFF)-a,0)})`;
         }
 
-        function getCurrentSector(angle) {
-            const pa = (3 * Math.PI / 2 - angle) % (2 * Math.PI);
-            const na = pa < 0 ? pa + 2 * Math.PI : pa;
-            return Math.floor(na / sectorAngle) % sectors.length;
-        }
-
-        function playTick() {
-            tickSound.currentTime = 0;
-            tickSound.play().catch(() => {});
+        function getCurrentSector(a) {
+            const pa = (3 * Math.PI / 2 - a) % (2 * Math.PI);
+            return Math.floor((pa < 0 ? pa + 2 * Math.PI : pa) / sectorAngle) % 6;
         }
 
         function updateCenter(text, win) {
             centerCircle.textContent = text;
-            centerCircle.classList.toggle('win', win);
+            centerCircle.classList.toggle('win', !!win);
         }
 
         function startSpin() {
-            if (spinning || !gameInitialized) return;
-
+            if (spinning || !gameReady) return;
             if (balance < SPIN_COST) {
-                const need = SPIN_COST - balance;
-                updateCenter('Нужно ' + need + ' G', false);
-                spinButton.classList.add('shake');
-                setTimeout(() => {
-                    spinButton.classList.remove('shake');
-                    updateCenter('Крутить', false);
-                }, 1500);
+                updateCenter('Нужно ' + (SPIN_COST - balance) + ' G', false);
+                const btn = document.getElementById('spinButton');
+                btn.classList.add('shake');
+                setTimeout(() => { btn.classList.remove('shake'); updateCenter('Крутить', false); }, 1500);
                 return;
             }
 
             balance -= SPIN_COST;
             updateBalanceDisplay();
-            saveUserData();
+            saveToServer();
             localStorage.setItem(userId + '_spins', (getSpinCount() + 1).toString());
 
             spinning = true;
-            spinButton.disabled = true;
+            document.getElementById('spinButton').disabled = true;
             updateCenter('...', false);
             lastSectorIndex = -1;
 
-            const target = getWeightedRandomSector();
+            const target = getSector();
             const tm = target * sectorAngle + sectorAngle / 2;
             const pa = (3 * Math.PI / 2 - currentAngle) % (2 * Math.PI);
             const np = pa < 0 ? pa + 2 * Math.PI : pa;
             let diff = tm - np;
             if (diff < 0) diff += 2 * Math.PI;
 
-            const totalRot = (5 + Math.floor(Math.random() * 4)) * 2 * Math.PI + diff;
+            const totalRot = (5 + Math.random() * 4) * 2 * Math.PI + diff;
             const startAng = currentAngle;
             const dur = 3500;
             const t0 = performance.now();
 
             function anim(now) {
                 const p = Math.min((now - t0) / dur, 1);
-                const ease = 1 - Math.pow(1 - p, 4);
-                currentAngle = startAng + totalRot * ease;
+                currentAngle = startAng + totalRot * (1 - Math.pow(1 - p, 4));
                 drawWheel(currentAngle);
-
                 const cs = getCurrentSector(currentAngle);
-                if (cs !== lastSectorIndex && lastSectorIndex !== -1) playTick();
+                if (cs !== lastSectorIndex && lastSectorIndex !== -1) {
+                    tickSound.currentTime = 0;
+                    tickSound.play().catch(() => {});
+                }
                 lastSectorIndex = cs;
-
                 if (p < 1) {
                     requestAnimationFrame(anim);
                 } else {
@@ -817,10 +704,10 @@
                     if (gold > 0) {
                         balance += gold;
                         updateBalanceDisplay();
-                        saveUserData();
+                        saveToServer();
                     }
                     spinning = false;
-                    spinButton.disabled = false;
+                    document.getElementById('spinButton').disabled = false;
                     setTimeout(() => { if (!spinning) updateCenter('Крутить', false); }, 2000);
                 }
             }
@@ -828,19 +715,16 @@
         }
 
         function initGame() {
-            if (gameInitialized) return;
-            spinButton = document.getElementById('spinButton');
-            spinButton.addEventListener('click', startSpin);
-
+            if (gameReady) return;
+            document.getElementById('spinButton').onclick = startSpin;
             let tsY = 0;
             canvas.addEventListener('touchstart', e => tsY = e.touches[0].clientY);
             canvas.addEventListener('touchend', e => {
                 if ((tsY - e.changedTouches[0].clientY) > 50 && !spinning) startSpin();
             });
-
             drawWheel(currentAngle);
             updateCenter('Крутить', false);
-            gameInitialized = true;
+            gameReady = true;
         }
 
         document.addEventListener('DOMContentLoaded', init);
