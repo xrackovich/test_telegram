@@ -66,7 +66,6 @@
             color: #ffd700;
             font-weight: bold;
             font-size: 0.85rem;
-            margin-left: 1px;
         }
 
         /* Профиль */
@@ -274,6 +273,17 @@
             z-index: 5;
         }
 
+        .spin-info {
+            color: #aaa;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .spin-info span {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
         .spin-btn {
             background: linear-gradient(135deg, #228b22, #0d4d0d);
             color: white;
@@ -323,6 +333,17 @@
             font-weight: bold;
         }
 
+        /* Анимация тряски при нехватке голды */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+
         @media (max-width: 380px) {
             .wheel-wrapper {
                 width: 260px;
@@ -365,7 +386,9 @@
             <canvas id="wheelCanvas" width="400" height="400"></canvas>
         </div>
 
-        <button class="spin-btn" id="spinButton">Крутить</button>
+        <div class="spin-info">Стоимость прокрутки: <span>15 G</span></div>
+
+        <button class="spin-btn" id="spinButton">Крутить (15 G)</button>
         
         <div class="result" id="resultDisplay">
             Нажми <span>"Крутить"</span>
@@ -376,8 +399,9 @@
     <audio id="tickSound" preload="auto" src="https://xrackovich.github.io/test_telegram/гортание.mp3"></audio>
 
     <script>
-        // Версия для сброса кеша: 2.0.1
-        const APP_VERSION = '2.0.1';
+        // Версия: 2.1.0
+        const APP_VERSION = '2.1.0';
+        const SPIN_COST = 15;
         console.log('SO2 Ruletka v' + APP_VERSION);
 
         // ============ Telegram Mini App ============
@@ -483,7 +507,6 @@
 
             updateBalanceDisplay();
             
-            // Разблокируем звук по первому касанию
             document.addEventListener('click', unlockAudio, { once: true });
             document.addEventListener('touchstart', unlockAudio, { once: true });
             
@@ -496,7 +519,6 @@
             tickSound.play().then(() => {
                 tickSound.pause();
                 tickSound.currentTime = 0;
-                console.log('Audio unlocked');
             }).catch(() => {});
         }
 
@@ -548,13 +570,14 @@
         let resultDisplay;
         let gameInitialized = false;
 
+        // Новые сектора с весами (больше вес = больше шанс)
         const sectors = [
-            { label: 'НИЧЕГО', color: '#c0392b', reward: 'Ничего 😔', gold: 0 },
-            { label: 'ЕЩЁ РАЗ', color: '#2471a3', reward: 'Ещё раз прокрутка 🔄', gold: 0 },
-            { label: '10 ГОЛДЫ', color: '#1e7e34', reward: '10 голды 💰', gold: 10 },
-            { label: 'НИЧЕГО', color: '#5d6d7e', reward: 'Ничего 😔', gold: 0 },
-            { label: '3 КЕЙСА', color: '#7d3c98', reward: '3 рандом кейса (Rare) 📦', gold: 0 },
-            { label: '25 ГОЛДЫ', color: '#b8860b', reward: '25 голды 💰', gold: 25 }
+            { label: '5 G', color: '#27ae60', reward: '5 голды 💰', gold: 5, weight: 40 },
+            { label: '7 G', color: '#2ecc71', reward: '7 голды 💰', gold: 7, weight: 30 },
+            { label: '10 G', color: '#1abc9c', reward: '10 голды 💰', gold: 10, weight: 20 },
+            { label: '15 G', color: '#f39c12', reward: '15 голды 💰', gold: 15, weight: 10 },
+            { label: '25 G', color: '#e67e22', reward: '25 голды 💰', gold: 25, weight: 5 },
+            { label: '40 G', color: '#e74c3c', reward: '40 голды 💰', gold: 40, weight: 2 }
         ];
 
         const sectorAngle = (2 * Math.PI) / sectors.length;
@@ -565,6 +588,17 @@
 
         const tickSound = document.getElementById('tickSound');
         tickSound.volume = 0.5;
+
+        function getWeightedRandomSector() {
+            const totalWeight = sectors.reduce((sum, s) => sum + s.weight, 0);
+            let random = Math.random() * totalWeight;
+            
+            for (let i = 0; i < sectors.length; i++) {
+                random -= sectors[i].weight;
+                if (random <= 0) return i;
+            }
+            return 0;
+        }
 
         function drawWheel(angle) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -597,7 +631,7 @@
                 ctx.rotate(startAngle + sectorAngle / 2);
                 ctx.textAlign = "right";
                 ctx.fillStyle = 'white';
-                ctx.font = 'bold 15px "Segoe UI", Tahoma, sans-serif';
+                ctx.font = 'bold 16px "Segoe UI", Tahoma, sans-serif';
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
                 ctx.shadowBlur = 4;
                 ctx.fillText(sector.label, radius - 25, 5);
@@ -637,19 +671,43 @@
 
         function startSpin() {
             if (spinning || !gameInitialized) return;
+
+            // Проверка баланса
+            if (balance < SPIN_COST) {
+                resultDisplay.innerHTML = '<span style="color:#ff4444;">Недостаточно голды! Нужно 15 G</span>';
+                const spinBtn = document.getElementById('spinButton');
+                spinBtn.classList.add('shake');
+                setTimeout(() => spinBtn.classList.remove('shake'), 300);
+                return;
+            }
             
             if (autoRetryTimeout) {
                 clearTimeout(autoRetryTimeout);
                 autoRetryTimeout = null;
             }
 
+            // Списываем стоимость
+            balance -= SPIN_COST;
+            updateBalanceDisplay();
+
             spinning = true;
             spinButton.disabled = true;
             resultDisplay.innerHTML = 'Крутится... 🎰';
             lastSectorIndex = -1;
             
+            // Выбираем сектор по весам
+            const targetSector = getWeightedRandomSector();
+            
+            // Вычисляем целевой угол
+            const targetMiddle = targetSector * sectorAngle + sectorAngle / 2;
+            const pointerAngle = (3 * Math.PI / 2 - currentAngle) % (2 * Math.PI);
+            const normPointer = pointerAngle < 0 ? pointerAngle + 2 * Math.PI : pointerAngle;
+            
+            let angleDiff = targetMiddle - normPointer;
+            if (angleDiff < 0) angleDiff += 2 * Math.PI;
+            
             const rotations = 5 + Math.floor(Math.random() * 4);
-            const totalRotation = rotations * 2 * Math.PI + (Math.random() * 2 * Math.PI);
+            const totalRotation = rotations * 2 * Math.PI + angleDiff;
             
             const startAngle = currentAngle;
             const duration = 3500;
@@ -689,12 +747,6 @@
                     
                     spinning = false;
                     spinButton.disabled = false;
-                    
-                    if (result.includes('Ещё раз прокрутка')) {
-                        autoRetryTimeout = setTimeout(() => {
-                            if (!spinning) startSpin();
-                        }, 1500);
-                    }
                 }
             }
             
