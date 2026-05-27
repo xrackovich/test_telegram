@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Колесо Фортуны</title>
+    <title>Колесо Фортуны | Telegram Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
@@ -21,20 +22,165 @@
             padding: 20px;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            overflow: hidden;
         }
 
-        .container {
+        /* Экран авторизации */
+        .auth-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .auth-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .auth-title {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .auth-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, #0088cc, #006699);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4);
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 136, 204, 0.6);
+        }
+
+        .auth-btn:active {
+            transform: scale(0.95);
+        }
+
+        .auth-btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .tg-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Основной контейнер игры */
+        .game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
             max-width: 400px;
             width: 100%;
         }
 
+        /* Профиль игрока */
+        .player-profile {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .player-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .player-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.75rem;
+        }
+
+        .player-name {
+            color: #ffd700;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
         h1 {
             color: #ffd700;
-            font-size: 2.2rem;
+            font-size: 2rem;
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
             text-align: center;
             letter-spacing: 2px;
@@ -42,8 +188,8 @@
 
         .wheel-wrapper {
             position: relative;
-            width: 320px;
-            height: 320px;
+            width: 300px;
+            height: 300px;
         }
 
         canvas {
@@ -129,31 +275,52 @@
             font-weight: bold;
         }
 
-        .chances-info {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            padding: 10px 15px;
-            border-radius: 10px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.75rem;
-            text-align: center;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            line-height: 1.4;
-        }
-
         @media (max-width: 380px) {
             .wheel-wrapper {
-                width: 280px;
-                height: 280px;
+                width: 260px;
+                height: 260px;
             }
             h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
+            }
+            .auth-container {
+                padding: 30px 20px;
+            }
+            .auth-title {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Экран авторизации -->
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-container">
+            <div class="auth-icon">🎰</div>
+            <div class="auth-title">Колесо Фортуны</div>
+            <div class="auth-text">
+                Для игры необходимо авторизоваться через Telegram
+            </div>
+            <button class="auth-btn" id="authButton">
+                <svg class="tg-icon" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.441-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.178.121.13.152.306.168.422.016.116.036.38.02.588z"/>
+                </svg>
+                Войти через Telegram
+            </button>
+        </div>
+    </div>
+
+    <!-- Основная игра -->
+    <div class="game-container" id="gameContainer" style="display: none;">
+        <!-- Профиль игрока -->
+        <div class="player-profile" id="playerProfile">
+            <div class="player-avatar" id="playerAvatar">👤</div>
+            <div class="player-info">
+                <div class="player-label">Игрок</div>
+                <div class="player-name" id="playerName">Гость</div>
+            </div>
+        </div>
+
         <h1>🎰 Колесо Фортуны</h1>
         
         <div class="wheel-wrapper">
@@ -167,20 +334,191 @@
         <div class="result" id="resultDisplay">
             Нажми <span>"Крутить"</span>
         </div>
-        
-        <div class="chances-info">
-            🎲 Шансы выпадения:<br>
-            Ничего — 20% | Ещё раз — 20%<br>
-            10 голды — 20% | 3 кейса — 20%<br>
-            25 голды — 20%
-        </div>
     </div>
 
     <script>
+        // ============ Telegram Integration ============
+        let telegramUser = null;
+        let isTelegramWebApp = false;
+
+        // Проверяем, открыто ли приложение в Telegram
+        function checkTelegramEnvironment() {
+            return !!(window.Telegram && window.Telegram.WebApp);
+        }
+
+        // Инициализация Telegram Mini App
+        function initTelegramApp() {
+            if (!checkTelegramEnvironment()) {
+                console.log('Not in Telegram environment');
+                return false;
+            }
+
+            try {
+                const webApp = window.Telegram.WebApp;
+                
+                // Сообщаем Telegram, что приложение готово
+                webApp.ready();
+                
+                // Разворачиваем на весь экран
+                webApp.expand();
+                
+                // Устанавливаем цветовую схему
+                if (webApp.colorScheme === 'dark') {
+                    document.body.style.background = 'linear-gradient(135deg, #0a0a1e 0%, #0a0a2e 50%, #0a0a4e 100%)';
+                }
+                
+                isTelegramWebApp = true;
+                return true;
+            } catch (error) {
+                console.error('Telegram init error:', error);
+                return false;
+            }
+        }
+
+        // Получение данных пользователя
+        function getTelegramUser() {
+            if (!isTelegramWebApp) return null;
+
+            try {
+                const webApp = window.Telegram.WebApp;
+                
+                // Пробуем получить данные из initDataUnsafe
+                if (webApp.initDataUnsafe && webApp.initDataUnsafe.user) {
+                    const user = webApp.initDataUnsafe.user;
+                    return {
+                        id: user.id,
+                        firstName: user.first_name || 'Игрок',
+                        username: user.username || null,
+                        photoUrl: user.photo_url || null
+                    };
+                }
+                
+                // Альтернативный метод получения данных
+                if (webApp.initData) {
+                    const urlParams = new URLSearchParams(webApp.initData);
+                    const userParam = urlParams.get('user');
+                    if (userParam) {
+                        try {
+                            const userData = JSON.parse(userParam);
+                            return {
+                                id: userData.id,
+                                firstName: userData.first_name || 'Игрок',
+                                username: userData.username || null,
+                                photoUrl: userData.photo_url || null
+                            };
+                        } catch (e) {
+                            console.error('Error parsing user data:', e);
+                        }
+                    }
+                }
+                
+                return null;
+            } catch (error) {
+                console.error('Error getting Telegram user:', error);
+                return null;
+            }
+        }
+
+        // Отображение профиля игрока
+        function displayPlayerProfile(user) {
+            const playerName = document.getElementById('playerName');
+            const playerAvatar = document.getElementById('playerAvatar');
+            
+            if (user) {
+                playerName.textContent = user.firstName;
+                
+                if (user.photoUrl) {
+                    playerAvatar.innerHTML = `<img src="${user.photoUrl}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+                } else {
+                    // Показываем первую букву имени как аватар
+                    playerAvatar.textContent = user.firstName.charAt(0).toUpperCase();
+                }
+            }
+        }
+
+        // Активация игры после авторизации
+        function activateGame() {
+            telegramUser = getTelegramUser();
+            
+            if (!telegramUser) {
+                // Если в Telegram, но данные не получены - пробуем еще раз через секунду
+                if (isTelegramWebApp) {
+                    setTimeout(() => {
+                        telegramUser = getTelegramUser();
+                        if (telegramUser) {
+                            displayPlayerProfile(telegramUser);
+                            hideAuthScreen();
+                        } else {
+                            // Используем тестовые данные для демонстрации в Telegram
+                            telegramUser = {
+                                id: 'tg_user',
+                                firstName: 'Тестовый Игрок',
+                                username: 'test_user',
+                                photoUrl: null
+                            };
+                            displayPlayerProfile(telegramUser);
+                            hideAuthScreen();
+                        }
+                    }, 1000);
+                }
+                return;
+            }
+            
+            displayPlayerProfile(telegramUser);
+            hideAuthScreen();
+        }
+
+        // Скрытие экрана авторизации
+        function hideAuthScreen() {
+            const authScreen = document.getElementById('authScreen');
+            const gameContainer = document.getElementById('gameContainer');
+            
+            authScreen.classList.add('hidden');
+            gameContainer.style.display = 'flex';
+            
+            // Запускаем игру после небольшой задержки
+            setTimeout(() => {
+                initGame();
+            }, 300);
+        }
+
+        // Обработчик кнопки авторизации
+        function handleAuthButton() {
+            const authBtn = document.getElementById('authButton');
+            
+            if (isTelegramWebApp) {
+                // В Telegram - автоматический вход
+                authBtn.classList.add('loading');
+                authBtn.innerHTML = '⏳ Авторизация...';
+                
+                setTimeout(() => {
+                    activateGame();
+                }, 500);
+            } else {
+                // Не в Telegram - показываем сообщение
+                authBtn.classList.add('loading');
+                authBtn.innerHTML = '❌ Требуется Telegram';
+                
+                setTimeout(() => {
+                    authBtn.classList.remove('loading');
+                    authBtn.innerHTML = `
+                        <svg class="tg-icon" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.441-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.178.121.13.152.306.168.422.016.116.036.38.02.588z"/>
+                        </svg>
+                        Войти через Telegram
+                    `;
+                    
+                    alert('Это приложение работает только в Telegram Mini App. Откройте его через Telegram бота.');
+                }, 2000);
+            }
+        }
+
+        // ============ Игра Колесо Фортуны ============
         const canvas = document.getElementById('wheelCanvas');
         const ctx = canvas.getContext('2d');
-        const spinButton = document.getElementById('spinButton');
-        const resultDisplay = document.getElementById('resultDisplay');
+        let spinButton;
+        let resultDisplay;
+        let gameInitialized = false;
 
         const sectors = [
             { label: 'НИЧЕГО', color: '#e74c3c', reward: 'Ничего 😔' },
@@ -261,7 +599,7 @@
         }
 
         function startSpin() {
-            if (spinning) return;
+            if (spinning || !gameInitialized) return;
             
             if (autoRetryTimeout) {
                 clearTimeout(autoRetryTimeout);
@@ -272,16 +610,11 @@
             spinButton.disabled = true;
             resultDisplay.innerHTML = 'Крутится... 🎰';
             
-            // Случайный угол для остановки (все сектора равновероятны)
             const targetSector = Math.floor(Math.random() * sectors.length);
-            const targetAngle = targetSector * sectorAngle + sectorAngle / 2;
-            
-            // Добавляем 5-8 полных оборотов
             const rotations = 5 + Math.floor(Math.random() * 4);
             const totalRotation = rotations * 2 * Math.PI + (Math.random() * 2 * Math.PI);
             
             const startAngle = currentAngle;
-            const endAngle = startAngle + totalRotation;
             const duration = 3000;
             const startTime = performance.now();
             
@@ -289,7 +622,6 @@
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 
-                // Плавное замедление
                 const easeOut = 1 - Math.pow(1 - progress, 3);
                 
                 currentAngle = startAngle + totalRotation * easeOut;
@@ -298,8 +630,7 @@
                 if (progress < 1) {
                     requestAnimationFrame(animate);
                 } else {
-                    // Остановка
-                    currentAngle = endAngle % (2 * Math.PI);
+                    currentAngle = currentAngle % (2 * Math.PI);
                     drawWheel(currentAngle);
                     
                     const sectorIndex = getCurrentSector(currentAngle);
@@ -320,24 +651,58 @@
             requestAnimationFrame(animate);
         }
 
-        spinButton.addEventListener('click', startSpin);
-
-        let touchStartY = 0;
-        canvas.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        });
-
-        canvas.addEventListener('touchend', (e) => {
-            const touchEndY = e.changedTouches[0].clientY;
-            const swipeDistance = touchStartY - touchEndY;
+        function initGame() {
+            if (gameInitialized) return;
             
-            if (swipeDistance > 50 && !spinning) {
-                startSpin();
-            }
-        });
+            spinButton = document.getElementById('spinButton');
+            resultDisplay = document.getElementById('resultDisplay');
+            
+            spinButton.addEventListener('click', startSpin);
+            
+            // Свайп для мобильных
+            let touchStartY = 0;
+            canvas.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            });
 
-        drawWheel(currentAngle);
-        resultDisplay.innerHTML = 'Нажми <span>"Крутить"</span> для старта';
+            canvas.addEventListener('touchend', (e) => {
+                const touchEndY = e.changedTouches[0].clientY;
+                const swipeDistance = touchStartY - touchEndY;
+                
+                if (swipeDistance > 50 && !spinning) {
+                    startSpin();
+                }
+            });
+            
+            drawWheel(currentAngle);
+            resultDisplay.innerHTML = 'Нажми <span>"Крутить"</span> для старта';
+            
+            gameInitialized = true;
+        }
+
+        // ============ Инициализация приложения ============
+        function initApp() {
+            const isInTelegram = initTelegramApp();
+            
+            if (isInTelegram) {
+                // Автоматическая активация в Telegram
+                setTimeout(() => {
+                    activateGame();
+                }, 300);
+            } else {
+                // Показываем экран авторизации для обычного браузера
+                document.getElementById('authScreen').classList.remove('hidden');
+                document.getElementById('authButton').addEventListener('click', handleAuthButton);
+            }
+        }
+
+        // Запускаем приложение после загрузки страницы
+        window.addEventListener('load', initApp);
+        
+        // Обработка случая, когда скрипт Telegram загружается позже
+        if (document.readyState === 'complete') {
+            initApp();
+        }
     </script>
 </body>
 </html>
