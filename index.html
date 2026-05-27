@@ -384,7 +384,7 @@
     <audio id="tickSound" preload="auto" src="https://xrackovich.github.io/test_telegram/гортание.mp3"></audio>
 
     <script>
-        const APP_VERSION = '2.1.1';
+        const APP_VERSION = '2.2.0';
         const SPIN_COST = 15;
         console.log('SO2 Ruletka v' + APP_VERSION);
 
@@ -392,9 +392,25 @@
         const tg = window.Telegram?.WebApp;
         let currentUser = null;
 
-        // ============ Баланс и промокоды ============
+        // ============ Баланс, промокоды и удача ============
         let balance = 25;
         const promoUsedKey = 'so2_promos_used_v2';
+        const spinCountKey = 'so2_spin_count_v2';
+
+        // Счётчик прокрутов для новичков
+        function getSpinCount() {
+            try {
+                return parseInt(localStorage.getItem(spinCountKey) || '0');
+            } catch(e) {
+                return 0;
+            }
+        }
+
+        function incrementSpinCount() {
+            const count = getSpinCount() + 1;
+            localStorage.setItem(spinCountKey, count.toString());
+            return count;
+        }
 
         function getUsedPromos() {
             try {
@@ -554,7 +570,7 @@
         let resultDisplay;
         let gameInitialized = false;
 
-        // Сектора с шансами: 5(очень часто) 7(часто) 10(часто) 15(обычно) 25(редко) 40(очень редко)
+        // Сектора: 5(очень часто) 7(часто) 10(часто) 15(обычно) 25(редко) 40(очень редко)
         const sectors = [
             { label: '5 G', color: '#27ae60', reward: '5 голды 💰', gold: 5, weight: 45 },
             { label: '7 G', color: '#2ecc71', reward: '7 голды 💰', gold: 7, weight: 30 },
@@ -563,6 +579,9 @@
             { label: '25 G', color: '#e67e22', reward: '25 голды 💰', gold: 25, weight: 4 },
             { label: '40 G', color: '#e74c3c', reward: '40 голды 💰', gold: 40, weight: 1 }
         ];
+
+        // Веса для новичков (первые 3 прокрута): больше шанс на 10-15 G, меньше на 5 G
+        const beginnerWeights = [25, 30, 25, 20, 8, 2];
 
         const sectorAngle = (2 * Math.PI) / sectors.length;
         let currentAngle = 0;
@@ -574,11 +593,21 @@
         tickSound.volume = 0.5;
 
         function getWeightedRandomSector() {
-            const totalWeight = sectors.reduce((sum, s) => sum + s.weight, 0);
+            const spinCount = getSpinCount();
+            let weights;
+            
+            // Первые 3 прокрута — повышенная удача
+            if (spinCount < 3) {
+                weights = beginnerWeights;
+            } else {
+                weights = sectors.map(s => s.weight);
+            }
+            
+            const totalWeight = weights.reduce((sum, w) => sum + w, 0);
             let random = Math.random() * totalWeight;
             
             for (let i = 0; i < sectors.length; i++) {
-                random -= sectors[i].weight;
+                random -= weights[i];
                 if (random <= 0) return i;
             }
             return 0;
@@ -657,7 +686,8 @@
             if (spinning || !gameInitialized) return;
 
             if (balance < SPIN_COST) {
-                resultDisplay.innerHTML = '<span style="color:#ff4444;">Недостаточно голды! Нужно 15 G</span>';
+                const need = SPIN_COST - balance;
+                resultDisplay.innerHTML = `<span style="color:#ff4444;">Недостаточно голды! Нужно ещё ${need} G</span>`;
                 spinButton.classList.add('shake');
                 setTimeout(() => spinButton.classList.remove('shake'), 300);
                 return;
@@ -670,6 +700,9 @@
 
             balance -= SPIN_COST;
             updateBalanceDisplay();
+            
+            // Увеличиваем счётчик прокрутов
+            incrementSpinCount();
 
             spinning = true;
             spinButton.disabled = true;
@@ -754,7 +787,13 @@
             });
             
             drawWheel(currentAngle);
-            resultDisplay.innerHTML = 'Нажми <span>"Крутить"</span> для старта';
+            
+            const spinCount = getSpinCount();
+            if (spinCount < 3) {
+                resultDisplay.innerHTML = '🎉 <span>Новичкам везёт!</span> Первые 3 прокрута с повышенным шансом';
+            } else {
+                resultDisplay.innerHTML = 'Нажми <span>"Крутить"</span> для старта';
+            }
             
             gameInitialized = true;
         }
