@@ -49,7 +49,7 @@
             padding: 6px 14px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .balance-icon {
@@ -273,23 +273,12 @@
             z-index: 5;
         }
 
-        .spin-info {
-            color: #aaa;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .spin-info span {
-            color: #ffd700;
-            font-weight: bold;
-        }
-
         .spin-btn {
             background: linear-gradient(135deg, #228b22, #0d4d0d);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.3rem;
+            padding: 15px 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             border-radius: 10px;
             cursor: pointer;
@@ -297,9 +286,8 @@
             transition: all 0.3s ease;
             letter-spacing: 1px;
             text-transform: uppercase;
-            width: 100%;
-            max-width: 250px;
             border: 1px solid rgba(34, 139, 34, 0.5);
+            white-space: nowrap;
         }
 
         .spin-btn:active {
@@ -333,7 +321,6 @@
             font-weight: bold;
         }
 
-        /* Анимация тряски при нехватке голды */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
@@ -386,8 +373,6 @@
             <canvas id="wheelCanvas" width="400" height="400"></canvas>
         </div>
 
-        <div class="spin-info">Стоимость прокрутки: <span>15 G</span></div>
-
         <button class="spin-btn" id="spinButton">Крутить (15 G)</button>
         
         <div class="result" id="resultDisplay">
@@ -399,8 +384,7 @@
     <audio id="tickSound" preload="auto" src="https://xrackovich.github.io/test_telegram/гортание.mp3"></audio>
 
     <script>
-        // Версия: 2.1.0
-        const APP_VERSION = '2.1.0';
+        const APP_VERSION = '2.1.1';
         const SPIN_COST = 15;
         console.log('SO2 Ruletka v' + APP_VERSION);
 
@@ -570,14 +554,14 @@
         let resultDisplay;
         let gameInitialized = false;
 
-        // Новые сектора с весами (больше вес = больше шанс)
+        // Сектора с шансами: 5(очень часто) 7(часто) 10(часто) 15(обычно) 25(редко) 40(очень редко)
         const sectors = [
-            { label: '5 G', color: '#27ae60', reward: '5 голды 💰', gold: 5, weight: 40 },
+            { label: '5 G', color: '#27ae60', reward: '5 голды 💰', gold: 5, weight: 45 },
             { label: '7 G', color: '#2ecc71', reward: '7 голды 💰', gold: 7, weight: 30 },
-            { label: '10 G', color: '#1abc9c', reward: '10 голды 💰', gold: 10, weight: 20 },
-            { label: '15 G', color: '#f39c12', reward: '15 голды 💰', gold: 15, weight: 10 },
-            { label: '25 G', color: '#e67e22', reward: '25 голды 💰', gold: 25, weight: 5 },
-            { label: '40 G', color: '#e74c3c', reward: '40 голды 💰', gold: 40, weight: 2 }
+            { label: '10 G', color: '#1abc9c', reward: '10 голды 💰', gold: 10, weight: 18 },
+            { label: '15 G', color: '#f39c12', reward: '15 голды 💰', gold: 15, weight: 12 },
+            { label: '25 G', color: '#e67e22', reward: '25 голды 💰', gold: 25, weight: 4 },
+            { label: '40 G', color: '#e74c3c', reward: '40 голды 💰', gold: 40, weight: 1 }
         ];
 
         const sectorAngle = (2 * Math.PI) / sectors.length;
@@ -672,12 +656,10 @@
         function startSpin() {
             if (spinning || !gameInitialized) return;
 
-            // Проверка баланса
             if (balance < SPIN_COST) {
                 resultDisplay.innerHTML = '<span style="color:#ff4444;">Недостаточно голды! Нужно 15 G</span>';
-                const spinBtn = document.getElementById('spinButton');
-                spinBtn.classList.add('shake');
-                setTimeout(() => spinBtn.classList.remove('shake'), 300);
+                spinButton.classList.add('shake');
+                setTimeout(() => spinButton.classList.remove('shake'), 300);
                 return;
             }
             
@@ -686,7 +668,6 @@
                 autoRetryTimeout = null;
             }
 
-            // Списываем стоимость
             balance -= SPIN_COST;
             updateBalanceDisplay();
 
@@ -695,10 +676,7 @@
             resultDisplay.innerHTML = 'Крутится... 🎰';
             lastSectorIndex = -1;
             
-            // Выбираем сектор по весам
             const targetSector = getWeightedRandomSector();
-            
-            // Вычисляем целевой угол
             const targetMiddle = targetSector * sectorAngle + sectorAngle / 2;
             const pointerAngle = (3 * Math.PI / 2 - currentAngle) % (2 * Math.PI);
             const normPointer = pointerAngle < 0 ? pointerAngle + 2 * Math.PI : pointerAngle;
@@ -781,7 +759,6 @@
             gameInitialized = true;
         }
 
-        // Запуск
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
