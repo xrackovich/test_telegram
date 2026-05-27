@@ -13,7 +13,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(180deg, #0a1f0a 0%, #0d2b0d 50%, #061406 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -25,43 +25,78 @@
             overflow: hidden;
         }
 
-        /* Верхняя панель с профилем */
+        /* Верхняя панель */
         .top-bar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px);
-            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            padding: 8px 15px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            border-bottom: 1px solid rgba(34, 139, 34, 0.3);
         }
 
+        /* Баланс голды */
+        .balance-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(34, 139, 34, 0.4);
+            border-radius: 8px;
+            padding: 6px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .balance-icon {
+            font-size: 1.1rem;
+        }
+
+        .balance-amount {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .balance-letter {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-left: 1px;
+        }
+
+        /* Профиль */
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 25px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 12px 5px 5px;
+            border-radius: 8px;
+            border: 1px solid rgba(34, 139, 34, 0.4);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .user-profile:active {
+            background: rgba(34, 139, 34, 0.2);
         }
 
         .user-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 2px solid #ffd700;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid #228b22;
             object-fit: cover;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #228b22, #0d4d0d);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: white;
             overflow: hidden;
         }
@@ -69,14 +104,124 @@
         .user-avatar img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
+            border-radius: 5px;
             object-fit: cover;
         }
 
         .user-name {
+            color: #e0e0e0;
+            font-size: 0.85rem;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .arrow-down {
+            color: #228b22;
+            font-size: 0.7rem;
+            margin-left: 2px;
+        }
+
+        /* Меню */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-overlay.active {
+            display: flex;
+        }
+
+        .menu-panel {
+            background: linear-gradient(180deg, #0d2b0d 0%, #0a1f0a 100%);
+            border: 1px solid rgba(34, 139, 34, 0.5);
+            border-radius: 10px;
+            padding: 25px 20px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .menu-title {
             color: #ffd700;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
             font-weight: bold;
+        }
+
+        .promo-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(34, 139, 34, 0.4);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .promo-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .promo-input:focus {
+            border-color: #228b22;
+        }
+
+        .promo-btn {
+            background: linear-gradient(135deg, #228b22, #0d4d0d);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .promo-btn:active {
+            opacity: 0.8;
+        }
+
+        .promo-msg {
+            color: #aaa;
+            font-size: 0.8rem;
+            min-height: 20px;
+            margin-top: 5px;
+        }
+
+        .promo-msg.success {
+            color: #4caf50;
+        }
+
+        .promo-msg.error {
+            color: #f44336;
+        }
+
+        .close-menu-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #aaa;
+            padding: 10px 30px;
             font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
         }
 
         /* Основной контейнер игры */
@@ -87,15 +232,15 @@
             gap: 20px;
             max-width: 400px;
             width: 100%;
-            margin-top: 60px;
+            margin-top: 55px;
         }
 
         h1 {
             color: #ffd700;
-            font-size: 2rem;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            font-size: 1.8rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
             text-align: center;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .wheel-wrapper {
@@ -107,7 +252,7 @@
         canvas {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.3));
+            filter: drop-shadow(0 0 30px rgba(34, 139, 34, 0.3));
         }
 
         .pointer {
@@ -138,20 +283,21 @@
         }
 
         .spin-btn {
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            color: #1a1a2e;
+            background: linear-gradient(135deg, #228b22, #0d4d0d);
+            color: white;
             border: none;
             padding: 15px 40px;
             font-size: 1.3rem;
             font-weight: bold;
-            border-radius: 50px;
+            border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(34, 139, 34, 0.3);
             transition: all 0.3s ease;
             letter-spacing: 1px;
             text-transform: uppercase;
             width: 100%;
             max-width: 250px;
+            border: 1px solid rgba(34, 139, 34, 0.5);
         }
 
         .spin-btn:active {
@@ -159,7 +305,7 @@
         }
 
         .spin-btn:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
@@ -167,7 +313,7 @@
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             padding: 15px 25px;
-            border-radius: 20px;
+            border-radius: 10px;
             color: white;
             font-size: 1.2rem;
             text-align: center;
@@ -175,7 +321,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            border: 1px solid rgba(34, 139, 34, 0.3);
             width: 100%;
             max-width: 300px;
         }
@@ -191,17 +337,34 @@
                 height: 260px;
             }
             h1 {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Верхняя панель с профилем -->
+    <!-- Верхняя панель -->
     <div class="top-bar" id="topBar">
-        <div class="user-profile">
+        <div class="balance-box">
+            <span class="balance-icon">🪙</span>
+            <span class="balance-amount" id="balanceAmount">25</span>
+            <span class="balance-letter">G</span>
+        </div>
+        <div class="user-profile" id="userProfile">
             <div class="user-avatar" id="userAvatar">👤</div>
-            <div class="user-name" id="userName">Игрок</div>
+            <span class="user-name" id="userName">Игрок</span>
+            <span class="arrow-down">▼</span>
+        </div>
+    </div>
+
+    <!-- Меню -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-panel">
+            <div class="menu-title">🎁 Промокод</div>
+            <input type="text" class="promo-input" id="promoInput" placeholder="Введите промокод" autocomplete="off">
+            <button class="promo-btn" id="promoBtn">Активировать</button>
+            <div class="promo-msg" id="promoMsg"></div>
+            <button class="close-menu-btn" id="closeMenuBtn">Закрыть</button>
         </div>
     </div>
 
@@ -222,14 +385,93 @@
         </div>
     </div>
 
-    <script>
-        // ============ Telegram Mini App - Автоматическая авторизация ============
-        const tg = window.Telegram?.WebApp;
+    <!-- Звук -->
+    <audio id="tickSound" preload="auto">
+        <source src="https://xrackovich.github.io/test_telegram/гортание.mp3" type="audio/mpeg">
+    </audio>
 
-        // Инициализация при загрузке
+    <script>
+        // ============ Telegram Mini App ============
+        const tg = window.Telegram?.WebApp;
+        let currentUser = null;
+
+        // ============ Баланс и промокоды ============
+        let balance = 25; // стартовый баланс
+        const promoUsedKey = 'so2_promos_used';
+
+        // Загрузка использованных промокодов из localStorage
+        function getUsedPromos() {
+            try {
+                return JSON.parse(localStorage.getItem(promoUsedKey) || '{}');
+            } catch(e) {
+                return {};
+            }
+        }
+
+        function saveUsedPromos(promos) {
+            localStorage.setItem(promoUsedKey, JSON.stringify(promos));
+        }
+
+        // Проверка и активация промокода
+        function activatePromo(code) {
+            const usedPromos = getUsedPromos();
+            const upperCode = code.toUpperCase().trim();
+
+            // Загружаем список промокодов
+            fetch('https://xrackovich.github.io/test_telegram/промокод.txt')
+                .then(res => res.text())
+                .then(data => {
+                    const lines = data.trim().split('\n');
+                    let found = false;
+
+                    for (let line of lines) {
+                        const parts = line.trim().split(';');
+                        if (parts.length >= 3) {
+                            const promoCode = parts[0].trim().toUpperCase();
+                            const gold = parseInt(parts[1]);
+                            const maxUses = parseInt(parts[2]);
+
+                            if (promoCode === upperCode) {
+                                found = true;
+                                const usedCount = usedPromos[upperCode] || 0;
+
+                                if (usedCount >= maxUses) {
+                                    showPromoMsg('Промокод уже использован максимальное количество раз', 'error');
+                                } else {
+                                    // Активируем
+                                    balance += gold;
+                                    updateBalanceDisplay();
+                                    usedPromos[upperCode] = usedCount + 1;
+                                    saveUsedPromos(usedPromos);
+                                    showPromoMsg(`Промокод активирован! +${gold} G`, 'success');
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!found) {
+                        showPromoMsg('Промокод не найден', 'error');
+                    }
+                })
+                .catch(() => {
+                    showPromoMsg('Ошибка загрузки промокодов', 'error');
+                });
+        }
+
+        function showPromoMsg(msg, type) {
+            const el = document.getElementById('promoMsg');
+            el.textContent = msg;
+            el.className = 'promo-msg ' + type;
+        }
+
+        function updateBalanceDisplay() {
+            document.getElementById('balanceAmount').textContent = balance;
+        }
+
+        // ============ Инициализация ============
         function init() {
             if (!tg) {
-                // Если открыто не в Telegram - показываем сообщение
                 document.body.innerHTML = `
                     <div style="color: white; text-align: center; padding: 40px;">
                         <h2 style="color: #ffd700;">Откройте приложение через Telegram</h2>
@@ -239,34 +481,65 @@
                 return;
             }
 
-            // Сообщаем Telegram что приложение готово
             tg.ready();
             tg.expand();
 
-            // Получаем данные пользователя (автоматически из Telegram)
             const user = tg.initDataUnsafe?.user;
-            
             if (user) {
-                // Отображаем имя
+                currentUser = user;
                 document.getElementById('userName').textContent = user.first_name;
-                
-                // Отображаем аватарку
                 const avatarEl = document.getElementById('userAvatar');
                 if (user.photo_url) {
                     avatarEl.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
                 } else {
                     avatarEl.textContent = user.first_name.charAt(0).toUpperCase();
                 }
-
-                console.log('Пользователь авторизован:', {
-                    id: user.id,
-                    имя: user.first_name,
-                    username: user.username
-                });
             }
 
-            // Запускаем игру
+            updateBalanceDisplay();
             initGame();
+            initMenu();
+        }
+
+        // ============ Меню ============
+        function initMenu() {
+            const overlay = document.getElementById('menuOverlay');
+            const profileBtn = document.getElementById('userProfile');
+            const closeBtn = document.getElementById('closeMenuBtn');
+            const promoBtn = document.getElementById('promoBtn');
+            const promoInput = document.getElementById('promoInput');
+
+            profileBtn.addEventListener('click', () => {
+                overlay.classList.add('active');
+                document.getElementById('promoMsg').textContent = '';
+                document.getElementById('promoMsg').className = 'promo-msg';
+                promoInput.value = '';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                overlay.classList.remove('active');
+            });
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+
+            promoBtn.addEventListener('click', () => {
+                const code = promoInput.value.trim();
+                if (!code) {
+                    showPromoMsg('Введите промокод', 'error');
+                    return;
+                }
+                activatePromo(code);
+            });
+
+            promoInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    promoBtn.click();
+                }
+            });
         }
 
         // ============ Игра Колесо Фортуны ============
@@ -277,18 +550,24 @@
         let gameInitialized = false;
 
         const sectors = [
-            { label: 'НИЧЕГО', color: '#e74c3c', reward: 'Ничего 😔' },
-            { label: 'ЕЩЁ РАЗ', color: '#3498db', reward: 'Ещё раз прокрутка 🔄' },
-            { label: '10 ГОЛДЫ', color: '#2ecc71', reward: '10 голды 💰' },
-            { label: 'НИЧЕГО', color: '#95a5a6', reward: 'Ничего 😔' },
-            { label: '3 КЕЙСА', color: '#9b59b6', reward: '3 рандом кейса (Rare) 📦' },
-            { label: '25 ГОЛДЫ', color: '#f39c12', reward: '25 голды 💰' }
+            { label: 'НИЧЕГО', color: '#c0392b', reward: 'Ничего 😔', gold: 0 },
+            { label: 'ЕЩЁ РАЗ', color: '#2471a3', reward: 'Ещё раз прокрутка 🔄', gold: 0 },
+            { label: '10 ГОЛДЫ', color: '#1e7e34', reward: '10 голды 💰', gold: 10 },
+            { label: 'НИЧЕГО', color: '#5d6d7e', reward: 'Ничего 😔', gold: 0 },
+            { label: '3 КЕЙСА', color: '#7d3c98', reward: '3 рандом кейса (Rare) 📦', gold: 0 },
+            { label: '25 ГОЛДЫ', color: '#b8860b', reward: '25 голды 💰', gold: 25 }
         ];
 
         const sectorAngle = (2 * Math.PI) / sectors.length;
         let currentAngle = 0;
         let spinning = false;
         let autoRetryTimeout = null;
+        let lastSectorIndex = -1;
+
+        // Звук
+        const tickSound = document.getElementById('tickSound');
+        tickSound.volume = 0.4;
+        tickSound.preload = 'auto';
 
         function drawWheel(angle) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -312,8 +591,8 @@
                 ctx.fillStyle = gradient;
                 ctx.fill();
                 
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
 
                 ctx.save();
@@ -321,19 +600,19 @@
                 ctx.rotate(startAngle + sectorAngle / 2);
                 ctx.textAlign = "right";
                 ctx.fillStyle = 'white';
-                ctx.font = 'bold 16px "Segoe UI", Tahoma, sans-serif';
+                ctx.font = 'bold 15px "Segoe UI", Tahoma, sans-serif';
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
                 ctx.shadowBlur = 4;
-                ctx.fillText(sector.label, radius - 25, 6);
+                ctx.fillText(sector.label, radius - 25, 5);
                 ctx.shadowBlur = 0;
                 ctx.restore();
             });
 
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-            ctx.strokeStyle = '#ffd700';
-            ctx.lineWidth = 4;
-            ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
+            ctx.strokeStyle = '#228b22';
+            ctx.lineWidth = 3;
+            ctx.shadowColor = 'rgba(34, 139, 34, 0.5)';
             ctx.shadowBlur = 15;
             ctx.stroke();
             ctx.shadowBlur = 0;
@@ -354,6 +633,12 @@
             return Math.floor(normalizedAngle / sectorAngle) % sectors.length;
         }
 
+        function playTickSound() {
+            const sound = tickSound.cloneNode();
+            sound.volume = 0.4;
+            sound.play().catch(() => {});
+        }
+
         function startSpin() {
             if (spinning || !gameInitialized) return;
             
@@ -365,6 +650,7 @@
             spinning = true;
             spinButton.disabled = true;
             resultDisplay.innerHTML = 'Крутится... 🎰';
+            lastSectorIndex = -1;
             
             const rotations = 5 + Math.floor(Math.random() * 4);
             const totalRotation = rotations * 2 * Math.PI + (Math.random() * 2 * Math.PI);
@@ -381,6 +667,13 @@
                 
                 currentAngle = startAngle + totalRotation * easeOut;
                 drawWheel(currentAngle);
+
+                // Проверка пересечения границы сектора для звука
+                const currentSector = getCurrentSector(currentAngle);
+                if (currentSector !== lastSectorIndex && lastSectorIndex !== -1) {
+                    playTickSound();
+                }
+                lastSectorIndex = currentSector;
                 
                 if (progress < 1) {
                     requestAnimationFrame(animate);
@@ -390,7 +683,15 @@
                     
                     const sectorIndex = getCurrentSector(currentAngle);
                     const result = sectors[sectorIndex].reward;
+                    const goldEarned = sectors[sectorIndex].gold;
+                    
                     resultDisplay.innerHTML = `Результат: <span>${result}</span>`;
+                    
+                    // Начисление голды
+                    if (goldEarned > 0) {
+                        balance += goldEarned;
+                        updateBalanceDisplay();
+                    }
                     
                     spinning = false;
                     spinButton.disabled = false;
