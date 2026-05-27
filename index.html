@@ -34,7 +34,7 @@
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(20px);
             padding: 10px 20px;
-            display: none;
+            display: flex;
             justify-content: flex-end;
             align-items: center;
             z-index: 100;
@@ -63,6 +63,14 @@
             justify-content: center;
             font-size: 1.2rem;
             color: white;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .user-name {
@@ -71,55 +79,9 @@
             font-size: 0.9rem;
         }
 
-        /* Экран загрузки */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .loading-container {
-            text-align: center;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 215, 0, 0.2);
-            border-top: 4px solid #ffd700;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            color: #ffd700;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
         /* Основной контейнер игры */
         .game-container {
-            display: none;
+            display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
@@ -235,14 +197,6 @@
     </style>
 </head>
 <body>
-    <!-- Экран загрузки -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-container">
-            <div class="loading-spinner"></div>
-            <div class="loading-text">Загрузка...</div>
-        </div>
-    </div>
-
     <!-- Верхняя панель с профилем -->
     <div class="top-bar" id="topBar">
         <div class="user-profile">
@@ -269,95 +223,50 @@
     </div>
 
     <script>
-        // ============ Telegram Mini App Integration ============
-        const webApp = window.Telegram?.WebApp;
-        let currentUser = null;
+        // ============ Telegram Mini App - Автоматическая авторизация ============
+        const tg = window.Telegram?.WebApp;
 
-        function initTelegramApp() {
-            if (!webApp) {
-                showError('Откройте приложение через Telegram бота @SO2ruletka_bot');
-                return false;
+        // Инициализация при загрузке
+        function init() {
+            if (!tg) {
+                // Если открыто не в Telegram - показываем сообщение
+                document.body.innerHTML = `
+                    <div style="color: white; text-align: center; padding: 40px;">
+                        <h2 style="color: #ffd700;">Откройте приложение через Telegram</h2>
+                        <p style="margin-top: 20px;">Перейдите в бота @SO2ruletka_bot и нажмите "Запустить"</p>
+                    </div>
+                `;
+                return;
             }
 
-            try {
-                // Сообщаем Telegram что приложение готово
-                webApp.ready();
-                webApp.expand();
+            // Сообщаем Telegram что приложение готово
+            tg.ready();
+            tg.expand();
+
+            // Получаем данные пользователя (автоматически из Telegram)
+            const user = tg.initDataUnsafe?.user;
+            
+            if (user) {
+                // Отображаем имя
+                document.getElementById('userName').textContent = user.first_name;
                 
-                // Получаем данные пользователя
-                const initData = webApp.initDataUnsafe;
-                
-                if (initData && initData.user) {
-                    currentUser = {
-                        id: initData.user.id,
-                        firstName: initData.user.first_name,
-                        lastName: initData.user.last_name || '',
-                        username: initData.user.username || '',
-                        photoUrl: initData.user.photo_url || ''
-                    };
-                    
-                    // Показываем интерфейс
-                    showGameInterface();
+                // Отображаем аватарку
+                const avatarEl = document.getElementById('userAvatar');
+                if (user.photo_url) {
+                    avatarEl.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
                 } else {
-                    // Пробуем получить данные альтернативным способом
-                    setTimeout(() => {
-                        if (webApp.initDataUnsafe && webApp.initDataUnsafe.user) {
-                            currentUser = {
-                                id: webApp.initDataUnsafe.user.id,
-                                firstName: webApp.initDataUnsafe.user.first_name,
-                                lastName: webApp.initDataUnsafe.user.last_name || '',
-                                username: webApp.initDataUnsafe.user.username || '',
-                                photoUrl: webApp.initDataUnsafe.user.photo_url || ''
-                            };
-                            showGameInterface();
-                        } else {
-                            showError('Не удалось получить данные пользователя');
-                        }
-                    }, 1000);
+                    avatarEl.textContent = user.first_name.charAt(0).toUpperCase();
                 }
-                
-                return true;
-            } catch (error) {
-                console.error('Telegram init error:', error);
-                showError('Ошибка инициализации');
-                return false;
-            }
-        }
 
-        function showGameInterface() {
-            // Скрываем экран загрузки
-            document.getElementById('loadingScreen').classList.add('hidden');
-            
-            // Показываем верхнюю панель
-            const topBar = document.getElementById('topBar');
-            topBar.style.display = 'flex';
-            
-            // Отображаем данные пользователя
-            if (currentUser) {
-                const userName = document.getElementById('userName');
-                const userAvatar = document.getElementById('userAvatar');
-                
-                userName.textContent = currentUser.firstName + 
-                    (currentUser.lastName ? ' ' + currentUser.lastName : '');
-                
-                if (currentUser.photoUrl) {
-                    userAvatar.innerHTML = `<img src="${currentUser.photoUrl}" 
-                        style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-                } else {
-                    userAvatar.textContent = currentUser.firstName.charAt(0).toUpperCase();
-                }
+                console.log('Пользователь авторизован:', {
+                    id: user.id,
+                    имя: user.first_name,
+                    username: user.username
+                });
             }
-            
-            // Показываем игру
-            document.getElementById('gameContainer').style.display = 'flex';
-            
-            // Инициализируем колесо
+
+            // Запускаем игру
             initGame();
-        }
-
-        function showError(message) {
-            document.getElementById('loadingScreen').querySelector('.loading-text').textContent = message;
-            document.getElementById('loadingScreen').querySelector('.loading-spinner').style.display = 'none';
         }
 
         // ============ Игра Колесо Фортуны ============
@@ -525,8 +434,8 @@
             gameInitialized = true;
         }
 
-        // ============ Запуск ============
-        document.addEventListener('DOMContentLoaded', initTelegramApp);
+        // Запуск
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
