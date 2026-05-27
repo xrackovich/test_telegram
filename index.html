@@ -33,7 +33,7 @@
             position: relative;
         }
 
-        /* Анимированный фон с шарами */
+        /* Анимированный фон */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -50,7 +50,7 @@
             border-radius: 50%;
             filter: blur(60px);
             animation: floatOrb linear infinite;
-            opacity: 0.4;
+            opacity: 0.35;
         }
 
         @keyframes floatOrb {
@@ -58,13 +58,13 @@
                 transform: translate(0, 0) scale(1);
             }
             25% {
-                transform: translate(100px, -80px) scale(1.3);
+                transform: translate(120px, -100px) scale(1.4);
             }
             50% {
-                transform: translate(-50px, 100px) scale(0.8);
+                transform: translate(-60px, 120px) scale(0.7);
             }
             75% {
-                transform: translate(-120px, -40px) scale(1.2);
+                transform: translate(-140px, -50px) scale(1.3);
             }
             100% {
                 transform: translate(0, 0) scale(1);
@@ -77,7 +77,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(15px);
             padding: 8px 15px;
             display: flex;
@@ -91,14 +91,14 @@
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(26, 255, 26, 0.3);
             border-radius: 8px;
-            padding: 6px 14px;
+            padding: 6px 12px;
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
         }
 
         .balance-icon {
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .balance-amount {
@@ -110,7 +110,7 @@
         .balance-letter {
             color: var(--gold);
             font-weight: bold;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .user-profile {
@@ -130,8 +130,8 @@
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 6px;
             border: 1px solid var(--green-neon);
             object-fit: cover;
@@ -139,7 +139,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: white;
             overflow: hidden;
         }
@@ -153,8 +153,8 @@
 
         .user-name {
             color: #e0e0e0;
-            font-size: 0.85rem;
-            max-width: 100px;
+            font-size: 0.8rem;
+            max-width: 80px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -162,8 +162,8 @@
 
         .arrow-down {
             color: var(--green-neon);
-            font-size: 0.7rem;
-            margin-left: 2px;
+            font-size: 0.65rem;
+            margin-left: 1px;
         }
 
         /* Меню */
@@ -173,7 +173,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 200;
             display: none;
             justify-content: center;
@@ -190,27 +190,27 @@
             border-radius: 10px;
             padding: 25px 20px;
             width: 90%;
-            max-width: 350px;
+            max-width: 320px;
             text-align: center;
         }
 
         .menu-title {
             color: var(--gold);
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
             font-weight: bold;
         }
 
         .promo-input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(26, 255, 26, 0.3);
             border-radius: 8px;
             color: white;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             text-align: center;
         }
 
@@ -218,53 +218,39 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        .promo-input:focus {
-            border-color: var(--green-neon);
-        }
-
         .promo-btn {
             background: linear-gradient(135deg, #1a6b1a, #0d3d0d);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
+            padding: 10px 25px;
+            font-size: 0.95rem;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            margin-bottom: 8px;
-            transition: opacity 0.2s;
-        }
-
-        .promo-btn:active {
-            opacity: 0.8;
+            margin-bottom: 6px;
         }
 
         .promo-msg {
             color: #aaa;
-            font-size: 0.8rem;
-            min-height: 20px;
-            margin-top: 5px;
+            font-size: 0.75rem;
+            min-height: 18px;
+            margin-top: 4px;
         }
 
-        .promo-msg.success {
-            color: #4caf50;
-        }
-
-        .promo-msg.error {
-            color: #f44336;
-        }
+        .promo-msg.success { color: #4caf50; }
+        .promo-msg.error { color: #f44336; }
 
         .close-menu-btn {
             background: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #aaa;
-            padding: 10px 30px;
-            font-size: 0.9rem;
+            padding: 8px 25px;
+            font-size: 0.85rem;
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         /* Основной контейнер */
@@ -272,38 +258,38 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
             max-width: 400px;
             width: 100%;
-            margin-top: 55px;
+            margin-top: 50px;
             position: relative;
             z-index: 1;
         }
 
         .wheel-wrapper {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 290px;
+            height: 290px;
         }
 
         canvas {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 0 30px rgba(26, 255, 26, 0.25));
+            filter: drop-shadow(0 0 30px rgba(26, 255, 26, 0.2));
         }
 
         .pointer {
             position: absolute;
-            top: -20px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
             width: 0;
             height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 45px solid #ff3333;
-            filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.8));
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 40px solid #ff3333;
+            filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.8));
         }
 
         .center-circle {
@@ -311,8 +297,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 55px;
-            height: 55px;
+            width: 52px;
+            height: 52px;
             background: radial-gradient(circle, #ffd700, #b8860b);
             border-radius: 50%;
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
@@ -322,7 +308,7 @@
             justify-content: center;
             color: #1a1a2e;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-align: center;
             line-height: 1.2;
             pointer-events: none;
@@ -339,13 +325,12 @@
             background: linear-gradient(135deg, #1a6b1a, #0d3d0d);
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 14px 28px;
+            font-size: 1.15rem;
             font-weight: bold;
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 8px 25px rgba(26, 255, 26, 0.2);
-            transition: all 0.3s ease;
             letter-spacing: 1px;
             text-transform: uppercase;
             border: 1px solid rgba(26, 255, 26, 0.4);
@@ -373,26 +358,29 @@
             animation: shake 0.3s ease-in-out;
         }
 
-        /* Ползунок громкости */
+        /* Громкость слева снизу */
         .volume-control {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 8px 15px;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 6px 12px;
             border-radius: 20px;
             border: 1px solid rgba(26, 255, 26, 0.2);
-            z-index: 1;
+            z-index: 10;
         }
 
         .volume-icon {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .volume-slider {
             -webkit-appearance: none;
-            width: 80px;
-            height: 4px;
+            width: 60px;
+            height: 3px;
             background: rgba(26, 255, 26, 0.3);
             border-radius: 2px;
             outline: none;
@@ -400,22 +388,22 @@
 
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             background: var(--green-neon);
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(26, 255, 26, 0.6);
+            box-shadow: 0 0 8px rgba(26, 255, 26, 0.6);
         }
 
         @media (max-width: 380px) {
             .wheel-wrapper {
-                width: 260px;
-                height: 260px;
+                width: 250px;
+                height: 250px;
             }
             .center-circle {
-                width: 45px;
-                height: 45px;
+                width: 44px;
+                height: 44px;
                 font-size: 0.75rem;
             }
         }
@@ -459,19 +447,21 @@
         </div>
 
         <button class="spin-btn" id="spinButton">Крутить (15 G)</button>
-        
-        <!-- Контроль громкости -->
-        <div class="volume-control">
-            <span class="volume-icon">🔊</span>
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
-        </div>
+    </div>
+
+    <!-- Громкость -->
+    <div class="volume-control">
+        <span class="volume-icon">🔊</span>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
     </div>
 
     <audio id="tickSound" preload="auto" src="https://xrackovich.github.io/test_telegram/гортание.mp3"></audio>
 
     <script>
-        const APP_VERSION = '2.3.0';
+        const APP_VERSION = '2.4.0';
         const SPIN_COST = 15;
+        // Ссылка на Google Apps Script (замени на свою после деплоя)
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwXqPLxSqzq8BqL8JqL8JqL8JqL8JqL8JqL8JqL8JqL8JqL8JqL/exec';
         console.log('SO2 Ruletka v' + APP_VERSION);
 
         // ============ Telegram Mini App ============
@@ -479,83 +469,80 @@
         let currentUser = null;
         let userId = 'guest';
 
+        // ============ Серверные данные ============
+        async function fetchUserData() {
+            try {
+                const response = await fetch(API_URL + '?action=get&userId=' + userId);
+                const data = await response.json();
+                if (data && data.balance !== undefined) {
+                    balance = data.balance;
+                } else {
+                    balance = 25;
+                }
+            } catch(e) {
+                console.log('Оффлайн-режим, беру из localStorage');
+                const saved = localStorage.getItem(userId + '_balance');
+                balance = saved ? parseInt(saved) : 25;
+                if (isNaN(balance) || balance < 0) balance = 0;
+            }
+            updateBalanceDisplay();
+        }
+
+        async function saveUserData() {
+            // Сохраняем локально всегда
+            localStorage.setItem(userId + '_balance', balance.toString());
+            
+            // Пытаемся сохранить на сервер
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'save',
+                        userId: userId,
+                        balance: balance
+                    })
+                });
+            } catch(e) {
+                console.log('Сервер недоступен, сохранено локально');
+            }
+        }
+
         // ============ Анимированный фон ============
         function createOrbs() {
             const container = document.getElementById('bgAnimation');
             const colors = [
-                'rgba(26, 255, 26, 0.3)',
-                'rgba(0, 180, 0, 0.25)',
-                'rgba(20, 200, 20, 0.2)',
-                'rgba(10, 150, 10, 0.3)',
-                'rgba(30, 220, 30, 0.2)'
+                'rgba(26, 255, 26, 0.25)',
+                'rgba(0, 180, 0, 0.2)',
+                'rgba(20, 200, 20, 0.18)',
+                'rgba(10, 150, 10, 0.25)',
+                'rgba(30, 220, 30, 0.18)'
             ];
             
             for (let i = 0; i < 5; i++) {
                 const orb = document.createElement('div');
                 orb.classList.add('orb');
-                orb.style.width = (150 + Math.random() * 200) + 'px';
+                orb.style.width = (140 + Math.random() * 180) + 'px';
                 orb.style.height = orb.style.width;
                 orb.style.background = colors[i];
                 orb.style.left = (Math.random() * 80) + '%';
                 orb.style.top = (Math.random() * 80) + '%';
-                orb.style.animationDuration = (15 + Math.random() * 25) + 's';
-                orb.style.animationDelay = (-Math.random() * 20) + 's';
+                orb.style.animationDuration = (16 + Math.random() * 22) + 's';
+                orb.style.animationDelay = (-Math.random() * 18) + 's';
                 container.appendChild(orb);
             }
         }
 
-        // ============ Баланс, промокоды ============
+        // ============ Баланс ============
         let balance = 25;
-        const promoUsedKey = 'so2_promos_used_v3';
-        const spinCountKey = 'so2_spin_count_v3';
 
-        function getStoragePrefix() {
-            return userId + '_';
+        function updateBalanceDisplay() {
+            document.getElementById('balanceAmount').textContent = balance;
         }
 
-        function loadBalance() {
-            const saved = localStorage.getItem(getStoragePrefix() + 'balance');
-            if (saved !== null) {
-                balance = parseInt(saved);
-                if (isNaN(balance) || balance < 0) balance = 0;
-            }
-        }
-
-        function saveBalance() {
-            localStorage.setItem(getStoragePrefix() + 'balance', balance.toString());
-        }
-
-        function getSpinCount() {
-            try {
-                return parseInt(localStorage.getItem(getStoragePrefix() + spinCountKey) || '0');
-            } catch(e) {
-                return 0;
-            }
-        }
-
-        function incrementSpinCount() {
-            const key = getStoragePrefix() + spinCountKey;
-            const count = getSpinCount() + 1;
-            localStorage.setItem(key, count.toString());
-            return count;
-        }
-
-        function getUsedPromos() {
-            try {
-                return JSON.parse(localStorage.getItem(getStoragePrefix() + promoUsedKey) || '{}');
-            } catch(e) {
-                return {};
-            }
-        }
-
-        function saveUsedPromos(promos) {
-            localStorage.setItem(getStoragePrefix() + promoUsedKey, JSON.stringify(promos));
-        }
-
+        // ============ Промокоды (всегда с сервера) ============
         function activatePromo(code) {
-            const usedPromos = getUsedPromos();
             const upperCode = code.toUpperCase().trim();
-
+            
             fetch('https://xrackovich.github.io/test_telegram/промокод.txt')
                 .then(res => res.text())
                 .then(data => {
@@ -567,20 +554,17 @@
                         if (parts.length >= 3) {
                             const promoCode = parts[0].trim().toUpperCase();
                             const gold = parseInt(parts[1]);
-                            const maxUses = parseInt(parts[2]);
 
                             if (promoCode === upperCode) {
                                 found = true;
-                                const usedCount = usedPromos[upperCode] || 0;
-
-                                if (usedCount >= maxUses) {
+                                const usedKey = userId + '_promo_' + upperCode;
+                                if (localStorage.getItem(usedKey)) {
                                     showPromoMsg('Промокод уже использован', 'error');
                                 } else {
                                     balance += gold;
                                     updateBalanceDisplay();
-                                    saveBalance();
-                                    usedPromos[upperCode] = usedCount + 1;
-                                    saveUsedPromos(usedPromos);
+                                    saveUserData();
+                                    localStorage.setItem(usedKey, '1');
                                     showPromoMsg(`+${gold} G`, 'success');
                                 }
                                 break;
@@ -588,13 +572,9 @@
                         }
                     }
 
-                    if (!found) {
-                        showPromoMsg('Промокод не найден', 'error');
-                    }
+                    if (!found) showPromoMsg('Промокод не найден', 'error');
                 })
-                .catch(() => {
-                    showPromoMsg('Ошибка загрузки', 'error');
-                });
+                .catch(() => showPromoMsg('Ошибка загрузки', 'error'));
         }
 
         function showPromoMsg(msg, type) {
@@ -603,19 +583,14 @@
             el.className = 'promo-msg ' + type;
         }
 
-        function updateBalanceDisplay() {
-            document.getElementById('balanceAmount').textContent = balance;
-        }
-
         // ============ Инициализация ============
-        function init() {
+        async function init() {
             if (!tg) {
                 document.body.innerHTML = `
-                    <div style="color: white; text-align: center; padding: 40px; position:relative;z-index:1;">
-                        <h2 style="color: #ffd700;">Откройте приложение через Telegram</h2>
-                        <p style="margin-top: 20px;">Перейдите в бота @SO2ruletka_bot</p>
-                    </div>
-                `;
+                    <div style="color:white;text-align:center;padding:40px;position:relative;z-index:1;">
+                        <h2 style="color:#ffd700;">Откройте через Telegram</h2>
+                        <p style="margin-top:20px;">@SO2ruletka_bot</p>
+                    </div>`;
                 return;
             }
 
@@ -629,16 +604,13 @@
                 document.getElementById('userName').textContent = user.first_name;
                 const avatarEl = document.getElementById('userAvatar');
                 if (user.photo_url) {
-                    avatarEl.innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
+                    avatarEl.innerHTML = `<img src="${user.photo_url}" alt="A">`;
                 } else {
                     avatarEl.textContent = user.first_name.charAt(0).toUpperCase();
                 }
             }
 
-            // Загружаем сохранённый баланс
-            loadBalance();
-            updateBalanceDisplay();
-
+            await fetchUserData();
             createOrbs();
             
             document.addEventListener('click', unlockAudio, { once: true });
@@ -650,61 +622,32 @@
         }
 
         function unlockAudio() {
-            const tickSound = document.getElementById('tickSound');
-            tickSound.play().then(() => {
-                tickSound.pause();
-                tickSound.currentTime = 0;
-            }).catch(() => {});
+            const s = document.getElementById('tickSound');
+            s.play().then(() => { s.pause(); s.currentTime = 0; }).catch(() => {});
         }
 
         function initVolume() {
             const slider = document.getElementById('volumeSlider');
-            const tickSound = document.getElementById('tickSound');
-            tickSound.volume = slider.value / 100;
-            
-            slider.addEventListener('input', () => {
-                tickSound.volume = slider.value / 100;
-            });
+            const s = document.getElementById('tickSound');
+            s.volume = slider.value / 100;
+            slider.addEventListener('input', () => s.volume = slider.value / 100);
         }
 
         // ============ Меню ============
         function initMenu() {
             const overlay = document.getElementById('menuOverlay');
-            const profileBtn = document.getElementById('userProfile');
-            const closeBtn = document.getElementById('closeMenuBtn');
-            const promoBtn = document.getElementById('promoBtn');
-            const promoInput = document.getElementById('promoInput');
-
-            profileBtn.addEventListener('click', () => {
+            document.getElementById('userProfile').addEventListener('click', () => {
                 overlay.classList.add('active');
                 document.getElementById('promoMsg').textContent = '';
                 document.getElementById('promoMsg').className = 'promo-msg';
-                promoInput.value = '';
+                document.getElementById('promoInput').value = '';
             });
-
-            closeBtn.addEventListener('click', () => {
-                overlay.classList.remove('active');
-            });
-
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.classList.remove('active');
-                }
-            });
-
-            promoBtn.addEventListener('click', () => {
-                const code = promoInput.value.trim();
-                if (!code) {
-                    showPromoMsg('Введите промокод', 'error');
-                    return;
-                }
+            document.getElementById('closeMenuBtn').addEventListener('click', () => overlay.classList.remove('active'));
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+            document.getElementById('promoBtn').addEventListener('click', () => {
+                const code = document.getElementById('promoInput').value.trim();
+                if (!code) { showPromoMsg('Введите промокод', 'error'); return; }
                 activatePromo(code);
-            });
-
-            promoInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    promoBtn.click();
-                }
             });
         }
 
@@ -715,115 +658,105 @@
         const centerCircle = document.getElementById('centerCircle');
         let gameInitialized = false;
 
+        // Сектора с нормальными шансами
         const sectors = [
-            { label: '5 G', color: '#27ae60', reward: '+5 G', gold: 5, weight: 45 },
-            { label: '7 G', color: '#2ecc71', reward: '+7 G', gold: 7, weight: 30 },
+            { label: '5 G', color: '#27ae60', reward: '+5 G', gold: 5, weight: 38 },
+            { label: '7 G', color: '#2ecc71', reward: '+7 G', gold: 7, weight: 28 },
             { label: '10 G', color: '#1abc9c', reward: '+10 G', gold: 10, weight: 18 },
-            { label: '15 G', color: '#f39c12', reward: '+15 G', gold: 15, weight: 12 },
-            { label: '25 G', color: '#e67e22', reward: '+25 G', gold: 25, weight: 4 },
+            { label: '15 G', color: '#f39c12', reward: '+15 G', gold: 15, weight: 10 },
+            { label: '25 G', color: '#e67e22', reward: '+25 G', gold: 25, weight: 5 },
             { label: '40 G', color: '#e74c3c', reward: '+40 G', gold: 40, weight: 1 }
         ];
 
-        const beginnerWeights = [25, 30, 25, 20, 8, 2];
+        const beginnerWeights = [30, 28, 22, 14, 5, 1];
         const sectorAngle = (2 * Math.PI) / sectors.length;
         let currentAngle = 0;
         let spinning = false;
-        let autoRetryTimeout = null;
         let lastSectorIndex = -1;
 
         const tickSound = document.getElementById('tickSound');
         tickSound.volume = 0.5;
 
+        function getSpinCount() {
+            return parseInt(localStorage.getItem(userId + '_spins') || '0');
+        }
+
         function getWeightedRandomSector() {
-            const spinCount = getSpinCount();
-            let weights = spinCount < 3 ? beginnerWeights : sectors.map(s => s.weight);
-            
-            const totalWeight = weights.reduce((sum, w) => sum + w, 0);
-            let random = Math.random() * totalWeight;
-            
+            const spins = getSpinCount();
+            const weights = spins < 3 ? beginnerWeights : sectors.map(s => s.weight);
+            const total = weights.reduce((a, b) => a + b, 0);
+            let r = Math.random() * total;
             for (let i = 0; i < sectors.length; i++) {
-                random -= weights[i];
-                if (random <= 0) return i;
+                r -= weights[i];
+                if (r <= 0) return i;
             }
             return 0;
         }
 
         function drawWheel(angle) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const radius = 180;
+            const cx = canvas.width / 2, cy = canvas.height / 2, r = 180;
 
-            sectors.forEach((sector, index) => {
-                const startAngle = angle + index * sectorAngle;
-                const endAngle = startAngle + sectorAngle;
-
-                const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
-                gradient.addColorStop(0, sector.color);
-                gradient.addColorStop(1, darkenColor(sector.color, 30));
-
+            sectors.forEach((s, i) => {
+                const sa = angle + i * sectorAngle, ea = sa + sectorAngle;
+                const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+                g.addColorStop(0, s.color);
+                g.addColorStop(1, darken(s.color, 30));
                 ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, sa, ea);
                 ctx.closePath();
-                ctx.fillStyle = gradient;
+                ctx.fillStyle = g;
                 ctx.fill();
-                
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+                ctx.lineWidth = 1.2;
                 ctx.stroke();
-
                 ctx.save();
-                ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + sectorAngle / 2);
+                ctx.translate(cx, cy);
+                ctx.rotate(sa + sectorAngle / 2);
                 ctx.textAlign = "right";
                 ctx.fillStyle = 'white';
-                ctx.font = 'bold 16px "Segoe UI", Tahoma, sans-serif';
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                ctx.font = 'bold 15px "Segoe UI", Tahoma, sans-serif';
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
                 ctx.shadowBlur = 4;
-                ctx.fillText(sector.label, radius - 25, 5);
+                ctx.fillText(s.label, r - 22, 5);
                 ctx.shadowBlur = 0;
                 ctx.restore();
             });
 
             ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.arc(cx, cy, r, 0, 2 * Math.PI);
             ctx.strokeStyle = '#1aff1a';
-            ctx.lineWidth = 3;
-            ctx.shadowColor = 'rgba(26, 255, 26, 0.4)';
-            ctx.shadowBlur = 15;
+            ctx.lineWidth = 2.5;
+            ctx.shadowColor = 'rgba(26,255,26,0.35)';
+            ctx.shadowBlur = 12;
             ctx.stroke();
             ctx.shadowBlur = 0;
         }
 
-        function darkenColor(hex, percent) {
-            const num = parseInt(hex.replace('#', ''), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = Math.max((num >> 16) - amt, 0);
-            const G = Math.max((num >> 8 & 0x00FF) - amt, 0);
-            const B = Math.max((num & 0x0000FF) - amt, 0);
-            return `rgb(${R}, ${G}, ${B})`;
+        function darken(hex, p) {
+            const n = parseInt(hex.replace('#', ''), 16);
+            const a = Math.round(2.55 * p);
+            const R = Math.max((n >> 16) - a, 0);
+            const G = Math.max((n >> 8 & 0xFF) - a, 0);
+            const B = Math.max((n & 0xFF) - a, 0);
+            return `rgb(${R},${G},${B})`;
         }
 
         function getCurrentSector(angle) {
-            const pointerAngle = (3 * Math.PI / 2 - angle) % (2 * Math.PI);
-            const normalizedAngle = pointerAngle < 0 ? pointerAngle + 2 * Math.PI : pointerAngle;
-            return Math.floor(normalizedAngle / sectorAngle) % sectors.length;
+            const pa = (3 * Math.PI / 2 - angle) % (2 * Math.PI);
+            const na = pa < 0 ? pa + 2 * Math.PI : pa;
+            return Math.floor(na / sectorAngle) % sectors.length;
         }
 
-        function playTickSound() {
+        function playTick() {
             tickSound.currentTime = 0;
             tickSound.play().catch(() => {});
         }
 
-        function updateCenterText(text, isWin) {
+        function updateCenter(text, win) {
             centerCircle.textContent = text;
-            if (isWin) {
-                centerCircle.classList.add('win');
-            } else {
-                centerCircle.classList.remove('win');
-            }
+            centerCircle.classList.toggle('win', win);
         }
 
         function startSpin() {
@@ -831,115 +764,82 @@
 
             if (balance < SPIN_COST) {
                 const need = SPIN_COST - balance;
-                updateCenterText('Нужно\n' + need + ' G', false);
+                updateCenter('Нужно ' + need + ' G', false);
                 spinButton.classList.add('shake');
                 setTimeout(() => {
                     spinButton.classList.remove('shake');
-                    updateCenterText('Крутить', false);
+                    updateCenter('Крутить', false);
                 }, 1500);
                 return;
-            }
-            
-            if (autoRetryTimeout) {
-                clearTimeout(autoRetryTimeout);
-                autoRetryTimeout = null;
             }
 
             balance -= SPIN_COST;
             updateBalanceDisplay();
-            saveBalance();
-            incrementSpinCount();
+            saveUserData();
+            localStorage.setItem(userId + '_spins', (getSpinCount() + 1).toString());
 
             spinning = true;
             spinButton.disabled = true;
-            updateCenterText('...', false);
+            updateCenter('...', false);
             lastSectorIndex = -1;
-            
-            const targetSector = getWeightedRandomSector();
-            const targetMiddle = targetSector * sectorAngle + sectorAngle / 2;
-            const pointerAngle = (3 * Math.PI / 2 - currentAngle) % (2 * Math.PI);
-            const normPointer = pointerAngle < 0 ? pointerAngle + 2 * Math.PI : pointerAngle;
-            
-            let angleDiff = targetMiddle - normPointer;
-            if (angleDiff < 0) angleDiff += 2 * Math.PI;
-            
-            const rotations = 5 + Math.floor(Math.random() * 4);
-            const totalRotation = rotations * 2 * Math.PI + angleDiff;
-            
-            const startAngle = currentAngle;
-            const duration = 3500;
-            const startTime = performance.now();
-            
-            function animate(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                const easeOut = 1 - Math.pow(1 - progress, 4);
-                
-                currentAngle = startAngle + totalRotation * easeOut;
+
+            const target = getWeightedRandomSector();
+            const tm = target * sectorAngle + sectorAngle / 2;
+            const pa = (3 * Math.PI / 2 - currentAngle) % (2 * Math.PI);
+            const np = pa < 0 ? pa + 2 * Math.PI : pa;
+            let diff = tm - np;
+            if (diff < 0) diff += 2 * Math.PI;
+
+            const totalRot = (5 + Math.floor(Math.random() * 4)) * 2 * Math.PI + diff;
+            const startAng = currentAngle;
+            const dur = 3500;
+            const t0 = performance.now();
+
+            function anim(now) {
+                const p = Math.min((now - t0) / dur, 1);
+                const ease = 1 - Math.pow(1 - p, 4);
+                currentAngle = startAng + totalRot * ease;
                 drawWheel(currentAngle);
 
-                const currentSector = getCurrentSector(currentAngle);
-                if (currentSector !== lastSectorIndex && lastSectorIndex !== -1) {
-                    playTickSound();
-                }
-                lastSectorIndex = currentSector;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
+                const cs = getCurrentSector(currentAngle);
+                if (cs !== lastSectorIndex && lastSectorIndex !== -1) playTick();
+                lastSectorIndex = cs;
+
+                if (p < 1) {
+                    requestAnimationFrame(anim);
                 } else {
-                    currentAngle = currentAngle % (2 * Math.PI);
+                    currentAngle %= 2 * Math.PI;
                     drawWheel(currentAngle);
-                    
-                    const sectorIndex = getCurrentSector(currentAngle);
-                    const reward = sectors[sectorIndex].reward;
-                    const goldEarned = sectors[sectorIndex].gold;
-                    
-                    updateCenterText(reward, true);
-                    
-                    if (goldEarned > 0) {
-                        balance += goldEarned;
+                    const si = getCurrentSector(currentAngle);
+                    const reward = sectors[si].reward;
+                    const gold = sectors[si].gold;
+                    updateCenter(reward, true);
+                    if (gold > 0) {
+                        balance += gold;
                         updateBalanceDisplay();
-                        saveBalance();
+                        saveUserData();
                     }
-                    
                     spinning = false;
                     spinButton.disabled = false;
-                    
-                    // Через 2 сек возвращаем "Крутить"
-                    setTimeout(() => {
-                        if (!spinning) updateCenterText('Крутить', false);
-                    }, 2000);
+                    setTimeout(() => { if (!spinning) updateCenter('Крутить', false); }, 2000);
                 }
             }
-            
-            requestAnimationFrame(animate);
+            requestAnimationFrame(anim);
         }
 
         function initGame() {
             if (gameInitialized) return;
-            
             spinButton = document.getElementById('spinButton');
-            
             spinButton.addEventListener('click', startSpin);
-            
-            let touchStartY = 0;
-            canvas.addEventListener('touchstart', (e) => {
-                touchStartY = e.touches[0].clientY;
+
+            let tsY = 0;
+            canvas.addEventListener('touchstart', e => tsY = e.touches[0].clientY);
+            canvas.addEventListener('touchend', e => {
+                if ((tsY - e.changedTouches[0].clientY) > 50 && !spinning) startSpin();
             });
 
-            canvas.addEventListener('touchend', (e) => {
-                const touchEndY = e.changedTouches[0].clientY;
-                const swipeDistance = touchStartY - touchEndY;
-                
-                if (swipeDistance > 50 && !spinning) {
-                    startSpin();
-                }
-            });
-            
             drawWheel(currentAngle);
-            updateCenterText('Крутить', false);
-            
+            updateCenter('Крутить', false);
             gameInitialized = true;
         }
 
